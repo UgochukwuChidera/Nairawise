@@ -1,7 +1,9 @@
 'use client'
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ComposedChart, Line } from 'recharts'
+import { useState } from 'react'
+import { Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ComposedChart, Line } from 'recharts'
 import { ChartTooltipContent, ChartContainer } from '@/components/ui/chart'
+import type { LegendsWithRender } from '@/lib/types'
 
 const data = [
   { month: 'Jul', income: 18600, expenses: 8000, previousIncome: 15000, previousExpenses: 7000 },
@@ -12,7 +14,42 @@ const data = [
   { month: 'Dec', income: 43900, expenses: 18000, previousIncome: 45000, previousExpenses: 19000 },
 ]
 
+const initialHidden = {
+    previousIncome: false,
+    previousExpenses: false,
+}
+
 export function OverviewChart() {
+  const [hiddenSeries, setHiddenSeries] = useState(initialHidden)
+
+  const handleLegendClick = (dataKey: string) => {
+    setHiddenSeries(prev => ({ ...prev, [dataKey]: !prev[dataKey as keyof typeof prev] }))
+  }
+
+  const renderLegend = (props: LegendsWithRender) => {
+    const { payload } = props;
+    return (
+      <ul className="flex justify-center gap-4 pt-5">
+        {
+          payload.map((entry, index) => (
+            <li
+              key={`item-${index}`}
+              onClick={() => handleLegendClick(entry.dataKey)}
+              className="flex items-center gap-2 cursor-pointer"
+              style={{
+                 opacity: (hiddenSeries as any)[entry.dataKey] ? 0.5 : 1,
+                 textDecoration: (entry.dataKey === 'previousIncome' || entry.dataKey === 'previousExpenses') ? 'none' : 'none',
+               }}
+            >
+              <span style={{ backgroundColor: entry.color, width: 10, height: 10, display: 'inline-block', borderRadius: '50%' }}></span>
+              {entry.value}
+            </li>
+          ))
+        }
+      </ul>
+    );
+  }
+
   return (
     <ChartContainer config={{}} className="h-[300px] w-full">
       <ResponsiveContainer width="100%" height="100%">
@@ -40,11 +77,11 @@ export function OverviewChart() {
                 }}
             />}
             />
-            <Legend wrapperStyle={{paddingTop: '20px'}}/>
+            <Legend content={renderLegend} />
             <Bar dataKey="income" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name="Income" />
             <Bar dataKey="expenses" fill="hsl(var(--destructive))" radius={[4, 4, 0, 0]} name="Expenses" />
-            <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--primary) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} />
-            <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--destructive) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--primary) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousIncome} />
+            <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--destructive) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousExpenses} />
         </ComposedChart>
       </ResponsiveContainer>
     </ChartContainer>

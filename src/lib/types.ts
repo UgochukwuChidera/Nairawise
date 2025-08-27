@@ -39,3 +39,11 @@ export type Thread = {
   replies: number;
   content: string;
 };
+
+export type LegendsWithRender = {
+  payload: {
+    value: string;
+    dataKey: string;
+    color: string;
+  }[];
+}
