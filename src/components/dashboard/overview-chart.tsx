@@ -130,19 +130,16 @@ export function OverviewChart() {
                 />}
                 />
                 <Legend content={renderLegend} />
-                {view === 'income-expense' ? (
-                    <>
-                        <Bar dataKey="income" fill="hsl(var(--chart-income))" radius={[4, 4, 0, 0]} name="Income" />
-                        <Bar dataKey="expenses" fill="hsl(var(--chart-expense))" radius={[4, 4, 0, 0]} name="Expenses" />
-                        <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--chart-income) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousIncome} />
-                        <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--chart-expense) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousExpenses} />
-                    </>
-                ) : (
-                    <>
-                        <Bar dataKey="savings" fill="hsl(var(--chart-savings))" radius={[4, 4, 0, 0]} name="Savings" />
-                        <Bar dataKey="overspend" fill="hsl(var(--chart-overspend))" radius={[4, 4, 0, 0]} name="Overspend" />
-                    </>
-                )}
+
+                {/* Income vs. Expense Bars */}
+                <Bar dataKey="income" fill="hsl(var(--chart-income))" radius={[4, 4, 0, 0]} name="Income" hide={view !== 'income-expense'} />
+                <Bar dataKey="expenses" fill="hsl(var(--chart-expense))" radius={[4, 4, 0, 0]} name="Expenses" hide={view !== 'income-expense'} />
+                <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--chart-income) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={view !== 'income-expense' || hiddenSeries.previousIncome} />
+                <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--chart-expense) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={view !== 'income-expense' || hiddenSeries.previousExpenses} />
+
+                {/* Savings & Overspend Bars */}
+                <Bar dataKey="savings" fill="hsl(var(--chart-savings))" radius={[4, 4, 0, 0]} name="Savings" hide={view !== 'savings-overspend'} />
+                <Bar dataKey="overspend" fill="hsl(var(--chart-overspend))" radius={[4, 4, 0, 0]} name="Overspend" hide={view !== 'savings-overspend'} />
             </ComposedChart>
           </ResponsiveContainer>
         </ChartContainer>
