@@ -52,20 +52,22 @@ export function OverviewChart() {
   const renderLegend = (props: LegendsWithRender) => {
     const { payload } = props;
 
-    const activeLegends = payload.filter(entry => {
-        if (view === 'income-expense') {
-            return ['income', 'expenses', 'previousIncome', 'previousExpenses'].includes(entry.dataKey);
-        }
-        if (view === 'savings-overspend') {
-            const hasSavings = savingsData.some(item => item.savings > 0)
-            const hasOverspend = savingsData.some(item => item.overspend > 0)
+    let activeLegends = payload;
 
-            if (entry.dataKey === 'savings' && !hasSavings) return false
-            if (entry.dataKey === 'overspend' && !hasOverspend) return false
-            return ['savings', 'overspend'].includes(entry.dataKey)
-        }
-        return false
-    })
+    if (view === 'income-expense') {
+        activeLegends = payload.filter(entry => 
+            ['income', 'expenses', 'previousIncome', 'previousExpenses'].includes(entry.dataKey)
+        );
+    } else if (view === 'savings-overspend') {
+        const hasSavings = savingsData.some(item => item.savings > 0);
+        const hasOverspend = savingsData.some(item => item.overspend > 0);
+
+        activeLegends = payload.filter(entry => {
+            if (entry.dataKey === 'savings') return hasSavings;
+            if (entry.dataKey === 'overspend') return hasOverspend;
+            return false;
+        });
+    }
     
     return (
       <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2 pt-5">
