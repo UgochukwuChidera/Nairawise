@@ -8,6 +8,8 @@ import {
 import { Progress } from '@/components/ui/progress'
 import { budgets } from '@/lib/placeholder-data'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 
 function getProgressColor(percentage: number) {
   if (percentage > 90) return 'bg-destructive'
@@ -17,8 +19,19 @@ function getProgressColor(percentage: number) {
 
 export default function BudgetPage() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Budget Planner</h1>
+    <div className="flex flex-1 flex-col gap-6 md:gap-8">
+       <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Budget Planner</h1>
+          <p className="text-muted-foreground mt-2">
+            Keep track of your spending and stay on top of your financial goals.
+          </p>
+        </div>
+        <Button size="icon" className="rounded-full shadow-lg">
+          <Plus className="h-5 w-5" />
+          <span className="sr-only">Add new budget</span>
+        </Button>
+      </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {budgets.map((budget) => {
           const percentage = Math.round((budget.spent / budget.allocated) * 100)
