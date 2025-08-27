@@ -24,7 +24,7 @@ export function OverviewChart() {
 
   const handleLegendClick = (dataKey: string) => {
     if (dataKey === 'previousIncome' || dataKey === 'previousExpenses') {
-      setHiddenSeries(prev => ({ ...prev, [dataKey]: !prev[dataKey as keyof typeof prev] }))
+      setHiddenSeries(prev => ({ ...prev, [dataKey as keyof typeof prev]: !prev[dataKey as keyof typeof prev] }))
     }
   }
 
@@ -55,8 +55,8 @@ export function OverviewChart() {
   }
 
   return (
-    <ChartContainer config={{}} className="h-[300px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
+    <ChartContainer config={{}} className="w-full">
+      <ResponsiveContainer width="100%" height={300}>
         <ComposedChart data={data} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis
