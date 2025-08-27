@@ -36,17 +36,18 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6">
+    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 shadow-sm">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+          className="flex items-center gap-2 text-lg font-semibold md:text-base mr-4"
         >
           <Logo />
           <span className="sr-only">NairaWise</span>
         </Link>
         {navItems.map((item) => (
-            <NavLink key={item.href} href={item.href} icon={item.icon}>
+            <NavLink key={item.href} href={item.href}>
+                <item.icon className="h-4 w-4" />
                 {item.label}
             </NavLink>
         ))}
@@ -69,7 +70,8 @@ export function Header() {
               <span className="sr-only">NairaWise</span>
             </Link>
             {navItems.map((item) => (
-                <NavLink key={item.href} href={item.href} icon={item.icon}>
+                <NavLink key={item.href} href={item.href}>
+                    <item.icon className="h-5 w-5" />
                     {item.label}
                 </NavLink>
             ))}
