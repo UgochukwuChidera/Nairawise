@@ -16,6 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { bills } from '@/lib/placeholder-data'
 import { AddBillDialog } from '@/components/bills/add-bill-dialog'
+import { BillActions } from '@/components/bills/bill-actions'
 
 export default function BillsPage() {
   return (
@@ -44,6 +45,7 @@ export default function BillsPage() {
                 <TableHead>Due Date</TableHead>
                 <TableHead className="text-center">Status</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -66,6 +68,9 @@ export default function BillsPage() {
                   </TableCell>
                   <TableCell className="text-right">
                     ₦{bill.amount.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <BillActions bill={bill} />
                   </TableCell>
                 </TableRow>
               ))}
