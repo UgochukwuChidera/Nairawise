@@ -15,8 +15,8 @@ const data = [
 ]
 
 const initialHidden = {
-    previousIncome: false,
-    previousExpenses: false,
+    previousIncome: true,
+    previousExpenses: true,
 }
 
 export function OverviewChart() {
@@ -31,7 +31,7 @@ export function OverviewChart() {
   const renderLegend = (props: LegendsWithRender) => {
     const { payload } = props;
     return (
-      <ul className="flex justify-center gap-4 pt-5">
+      <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2 pt-5">
         {
           payload.map((entry, index) => {
             const isClickable = entry.dataKey === 'previousIncome' || entry.dataKey === 'previousExpenses'
@@ -39,7 +39,7 @@ export function OverviewChart() {
               <li
                 key={`item-${index}`}
                 onClick={() => handleLegendClick(entry.dataKey)}
-                className={`flex items-center gap-2 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
+                className={`flex items-center gap-2 text-xs ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
                 style={{
                    opacity: (hiddenSeries as any)[entry.dataKey] ? 0.5 : 1,
                  }}
