@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useMemo, useState } from 'react'
@@ -51,23 +52,10 @@ export function OverviewChart() {
   const renderLegend = (props: LegendsWithRender) => {
     const { payload } = props;
     
-    let filteredPayload = payload;
-
-    if (view === 'savings-overspend') {
-      const hasSavings = savingsData.some(d => d.savings > 0)
-      const hasOverspend = savingsData.some(d => d.overspend > 0)
-      
-      filteredPayload = payload.filter(entry => {
-        if (entry.dataKey === 'savings') return hasSavings
-        if (entry.dataKey === 'overspend') return hasOverspend
-        return false
-      })
-    }
-
     return (
       <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2 pt-5">
         {
-          filteredPayload.map((entry, index) => {
+          payload.map((entry, index) => {
             const isClickable = entry.dataKey === 'previousIncome' || entry.dataKey === 'previousExpenses'
             return (
               <li
@@ -136,6 +124,7 @@ export function OverviewChart() {
                 />
                 <Tooltip
                 content={<ChartTooltipContent
+                    payload={(view === 'savings-overspend' && arguments[0]?.payload) ? arguments[0].payload.filter((p: any) => p.value > 0) : arguments[0]?.payload}
                     formatter={(value, name) => {
                         const formattedName = name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
                         return [`₦${value.toLocaleString()}`, formattedName]
@@ -160,3 +149,4 @@ export function OverviewChart() {
     </>
   )
 }
+
