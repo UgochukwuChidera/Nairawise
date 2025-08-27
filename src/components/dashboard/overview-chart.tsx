@@ -1,9 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ComposedChart, Line } from 'recharts'
 import { ChartTooltipContent, ChartContainer } from '@/components/ui/chart'
-import type { LegendsWithRender } from '@/lib/types'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import type { LegendsWithRender, SavingsData } from '@/lib/types'
+import { Button } from '../ui/button'
+import { ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+
 
 const data = [
   { month: 'Jul', income: 18600, expenses: 8000, previousIncome: 15000, previousExpenses: 7000 },
@@ -11,7 +17,7 @@ const data = [
   { month: 'Sep', income: 23700, expenses: 9800, previousIncome: 22000, previousExpenses: 10500 },
   { month: 'Oct', income: 65000, expenses: 17500, previousIncome: 61000, previousExpenses: 16000 },
   { month: 'Nov', income: 48900, expenses: 19800, previousIncome: 52000, previousExpenses: 21000 },
-  { month: 'Dec', income: 43900, expenses: 18000, previousIncome: 45000, previousExpenses: 19000 },
+  { month: 'Dec', income: 43900, expenses: 28000, previousIncome: 45000, previousExpenses: 19000 },
 ]
 
 const initialHidden = {
@@ -19,8 +25,11 @@ const initialHidden = {
     previousExpenses: true,
 }
 
+type ChartView = 'income-expense' | 'savings-overspend'
+
 export function OverviewChart() {
   const [hiddenSeries, setHiddenSeries] = useState(initialHidden)
+  const [view, setView] = useState<ChartView>('income-expense')
 
   const handleLegendClick = (dataKey: string) => {
     if (dataKey === 'previousIncome' || dataKey === 'previousExpenses') {
@@ -30,6 +39,7 @@ export function OverviewChart() {
 
   const renderLegend = (props: LegendsWithRender) => {
     const { payload } = props;
+    if (view === 'savings-overspend') return null;
     return (
       <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2 pt-5">
         {
@@ -54,40 +64,89 @@ export function OverviewChart() {
     );
   }
 
+  const savingsData = useMemo<SavingsData[]>(() => {
+    return data.map(item => {
+        const diff = item.income - item.expenses;
+        return {
+            month: item.month,
+            savings: diff > 0 ? diff : 0,
+            overspend: diff < 0 ? -diff : 0
+        }
+    })
+  }, [data])
+
   return (
-    <ChartContainer config={{}} className="w-full" style={{ aspectRatio: '16 / 9' }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart data={data} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis
-            dataKey="month"
-            stroke="hsl(var(--muted-foreground))"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
-            />
-            <YAxis
-            stroke="hsl(var(--muted-foreground))"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => `₦${value / 1000}k`}
-            />
-            <Tooltip
-            content={<ChartTooltipContent
-                formatter={(value, name) => {
-                    const formattedName = name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
-                    return [`₦${value.toLocaleString()}`, formattedName]
-                }}
-            />}
-            />
-            <Legend content={renderLegend} />
-            <Bar dataKey="income" fill="hsl(var(--chart-income))" radius={[4, 4, 0, 0]} name="Income" />
-            <Bar dataKey="expenses" fill="hsl(var(--chart-expense))" radius={[4, 4, 0, 0]} name="Expenses" />
-            <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--chart-income) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousIncome} />
-            <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--chart-expense) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousExpenses} />
-        </ComposedChart>
-      </ResponsiveContainer>
-    </ChartContainer>
+    <>
+      <CardHeader>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <CardTitle>Overview</CardTitle>
+                <CardDescription>A summary of your financial activity.</CardDescription>
+            </div>
+            <div className="flex items-center gap-2">
+                <Select value={view} onValueChange={(value) => setView(value as ChartView)}>
+                    <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select view" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="income-expense">Income vs. Expense</SelectItem>
+                        <SelectItem value="savings-overspend">Savings & Overspend</SelectItem>
+                    </SelectContent>
+                </Select>
+                 <Button variant="outline" size="sm" asChild>
+                    <Link href="/analytics">
+                        Go to Analytics
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                </Button>
+            </div>
+        </div>
+      </CardHeader>
+      <CardContent className="pl-2">
+        <ChartContainer config={{}} className="w-full" style={{ aspectRatio: '16 / 9' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart data={view === 'income-expense' ? data : savingsData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <XAxis
+                dataKey="month"
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+                />
+                <YAxis
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(value) => `₦${value / 1000}k`}
+                />
+                <Tooltip
+                content={<ChartTooltipContent
+                    formatter={(value, name) => {
+                        const formattedName = name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+                        return [`₦${value.toLocaleString()}`, formattedName]
+                    }}
+                />}
+                />
+                <Legend content={renderLegend} />
+                {view === 'income-expense' ? (
+                    <>
+                        <Bar dataKey="income" fill="hsl(var(--chart-income))" radius={[4, 4, 0, 0]} name="Income" />
+                        <Bar dataKey="expenses" fill="hsl(var(--chart-expense))" radius={[4, 4, 0, 0]} name="Expenses" />
+                        <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--chart-income) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousIncome} />
+                        <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--chart-expense) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousExpenses} />
+                    </>
+                ) : (
+                    <>
+                        <Bar dataKey="savings" fill="hsl(var(--chart-savings))" radius={[4, 4, 0, 0]} name="Savings" />
+                        <Bar dataKey="overspend" fill="hsl(var(--chart-overspend))" radius={[4, 4, 0, 0]} name="Overspend" />
+                    </>
+                )}
+            </ComposedChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </CardContent>
+    </>
   )
 }

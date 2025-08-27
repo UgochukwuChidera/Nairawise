@@ -47,3 +47,9 @@ export type LegendsWithRender = {
     color: string;
   }[];
 }
+
+export type SavingsData = {
+    month: string;
+    savings: number;
+    overspend: number;
+}

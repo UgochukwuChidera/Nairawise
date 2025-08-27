@@ -19,7 +19,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTr
 import { Logo } from '@/components/logo'
 import { NavLink } from './nav-link'
 import { useTheme } from 'next-themes'
-import { Sun, Moon } from 'lucide-react'
+import { Sun, Moon, AreaChart } from 'lucide-react'
 
 export function Header() {
   const { setTheme } = useTheme()
@@ -32,6 +32,7 @@ export function Header() {
     { href: '/assistant', label: 'Assistant' },
     { href: '/blog', label: 'Blog' },
     { href: '/hub', label: 'Hub' },
+    { href: '/analytics', label: 'Analytics' },
   ]
   
   const handleLinkClick = () => {
@@ -65,7 +66,7 @@ export function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="flex w-full flex-col sm:max-w-full">
-             <SheetHeader className="sr-only">
+            <SheetHeader className="sr-only">
               <SheetTitle>Navigation Menu</SheetTitle>
               <SheetDescription>
                 A list of links to navigate the application.
@@ -88,7 +89,7 @@ export function Header() {
           </SheetContent>
         </Sheet>
 
-        <div className="flex-1 text-center">
+        <div className="flex flex-1 justify-center">
             <Link href="/" className="inline-flex items-center gap-2 text-lg font-semibold">
                 <Logo />
             </Link>
