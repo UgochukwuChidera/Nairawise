@@ -1,6 +1,7 @@
 'use client'
 
-import { useFormState, useFormStatus } from 'react-dom'
+import { useActionState } from 'react'
+import { useFormStatus } from 'react-dom'
 import { getFinancialAnalysis, type FormState } from '@/app/assistant/actions'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -24,7 +25,7 @@ function SubmitButton() {
 }
 
 export function AssistantClient() {
-  const [state, formAction] = useFormState(getFinancialAnalysis, initialState)
+  const [state, formAction] = useActionState(getFinancialAnalysis, initialState)
 
   return (
     <div className="grid gap-8 md:grid-cols-2">
