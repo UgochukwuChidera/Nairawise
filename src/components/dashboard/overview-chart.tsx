@@ -19,6 +19,7 @@ const data = [
   { month: 'Oct', income: 65000, expenses: 17500, previousIncome: 61000, previousExpenses: 16000 },
   { month: 'Nov', income: 48900, expenses: 19800, previousIncome: 52000, previousExpenses: 21000 },
   { month: 'Dec', income: 43900, expenses: 28000, previousIncome: 45000, previousExpenses: 19000 },
+  { month: 'Jan', income: 32000, expenses: 37000, previousIncome: 35000, previousExpenses: 33000 },
 ]
 
 const initialHidden = {
@@ -142,7 +143,7 @@ export function OverviewChart() {
                 content={({ active, payload, label }) => {
                     const finalPayload =
                     view === 'savings-overspend'
-                        ? payload?.filter((p) => p.value > 0)
+                        ? payload?.filter((p) => p.value !== 0)
                         : payload;
                     return (
                     <ChartTooltipContent
