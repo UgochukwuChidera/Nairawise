@@ -15,7 +15,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent
 } from '@/components/ui/dropdown-menu'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet'
 import { Logo } from '@/components/logo'
 import { NavLink } from './nav-link'
 import { useTheme } from 'next-themes'
@@ -40,8 +40,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between gap-4 border-b bg-background/95 px-4 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-6">
-      {/* Left side: Desktop Logo and Mobile Menu Trigger */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 md:gap-2 lg:gap-10">
         <Link
           href="/"
           className="hidden items-center gap-2 text-lg font-semibold md:flex"
@@ -55,7 +54,13 @@ export function Header() {
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="flex flex-col">
+          <SheetContent side="left" className="flex w-full flex-col sm:max-w-full">
+             <SheetHeader className="sr-only">
+              <SheetTitle>Navigation Menu</SheetTitle>
+              <SheetDescription>
+                A list of links to navigate the application.
+              </SheetDescription>
+            </SheetHeader>
             <nav className="grid gap-4 text-base font-medium">
               <Link
                 href="/"
@@ -72,26 +77,21 @@ export function Header() {
             </nav>
           </SheetContent>
         </Sheet>
-      </div>
-
-      {/* Center: Desktop Nav and Mobile Logo */}
-      <div className="flex flex-1 justify-center">
-        <nav className="hidden items-center gap-8 text-sm md:flex lg:gap-10">
-          {navItems.map((item) => (
+         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+           {navItems.map((item) => (
             <NavLink key={item.href} href={item.href}>
               {item.label}
             </NavLink>
           ))}
         </nav>
-        <div className="flex justify-center md:hidden">
+      </div>
+
+      <div className="flex items-center gap-4">
+        <div className="flex md:hidden">
             <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
                 <Logo />
             </Link>
         </div>
-      </div>
-
-      {/* Right side: User Menu */}
-      <div className="flex items-center justify-end">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
