@@ -21,14 +21,16 @@ import { BillActions } from '@/components/bills/bill-actions'
 export default function BillsPage() {
   return (
     <div className="flex flex-1 flex-col gap-6 md:gap-8">
-       <div className="flex items-center justify-between">
+       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Bill Tracker</h1>
           <p className="text-muted-foreground mt-2">
             Add, manage, and track all your upcoming bills.
           </p>
         </div>
-        <AddBillDialog />
+        <div className="ml-4 shrink-0">
+          <AddBillDialog />
+        </div>
       </div>
       <Card>
         <CardHeader>

@@ -7,12 +7,14 @@ import { AddRecordDialog } from "@/components/dashboard/add-record-dialog"
 export default function DashboardPage() {
   return (
     <div className="flex flex-1 flex-col gap-6 md:gap-8 relative">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <div>
           <h1 className="text-4xl font-extrabold tracking-tight">Welcome Back</h1>
           <p className="text-muted-foreground mt-2">Here's a snapshot of your financial health.</p>
         </div>
-        <AddRecordDialog />
+        <div className="ml-4 shrink-0">
+          <AddRecordDialog />
+        </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <StatCards />
