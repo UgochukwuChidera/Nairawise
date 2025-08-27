@@ -55,8 +55,8 @@ export function OverviewChart() {
   }
 
   return (
-    <ChartContainer config={{}} className="w-full">
-      <ResponsiveContainer width="100%" height={300}>
+    <ChartContainer config={{}} className="w-full" style={{ aspectRatio: '16 / 9' }}>
+      <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={data} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis
@@ -82,10 +82,10 @@ export function OverviewChart() {
             />}
             />
             <Legend content={renderLegend} />
-            <Bar dataKey="income" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name="Income" />
-            <Bar dataKey="expenses" fill="hsl(var(--destructive))" radius={[4, 4, 0, 0]} name="Expenses" />
-            <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--primary) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousIncome} />
-            <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--destructive) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousExpenses} />
+            <Bar dataKey="income" fill="hsl(var(--chart-income))" radius={[4, 4, 0, 0]} name="Income" />
+            <Bar dataKey="expenses" fill="hsl(var(--chart-expense))" radius={[4, 4, 0, 0]} name="Expenses" />
+            <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--chart-income) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousIncome} />
+            <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--chart-expense) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} hide={hiddenSeries.previousExpenses} />
         </ComposedChart>
       </ResponsiveContainer>
     </ChartContainer>
