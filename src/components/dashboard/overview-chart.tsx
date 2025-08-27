@@ -37,18 +37,42 @@ export function OverviewChart() {
     }
   }
 
+  const savingsData = useMemo<SavingsData[]>(() => {
+    return data.map(item => {
+        const diff = item.income - item.expenses;
+        return {
+            month: item.month,
+            savings: diff > 0 ? diff : 0,
+            overspend: diff < 0 ? -diff : 0
+        }
+    })
+  }, [])
+  
   const renderLegend = (props: LegendsWithRender) => {
     const { payload } = props;
-    if (view === 'savings-overspend') return null;
+    
+    let filteredPayload = payload;
+
+    if (view === 'savings-overspend') {
+      const hasSavings = savingsData.some(d => d.savings > 0)
+      const hasOverspend = savingsData.some(d => d.overspend > 0)
+      
+      filteredPayload = payload.filter(entry => {
+        if (entry.dataKey === 'savings') return hasSavings
+        if (entry.dataKey === 'overspend') return hasOverspend
+        return false
+      })
+    }
+
     return (
       <ul className="flex flex-wrap justify-center gap-x-4 gap-y-2 pt-5">
         {
-          payload.map((entry, index) => {
+          filteredPayload.map((entry, index) => {
             const isClickable = entry.dataKey === 'previousIncome' || entry.dataKey === 'previousExpenses'
             return (
               <li
                 key={`item-${index}`}
-                onClick={() => handleLegendClick(entry.dataKey)}
+                onClick={() => handleLegendClick(entry.dataKey as string)}
                 className={`flex items-center gap-2 text-xs ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
                 style={{
                    opacity: (hiddenSeries as any)[entry.dataKey] ? 0.5 : 1,
@@ -63,17 +87,6 @@ export function OverviewChart() {
       </ul>
     );
   }
-
-  const savingsData = useMemo<SavingsData[]>(() => {
-    return data.map(item => {
-        const diff = item.income - item.expenses;
-        return {
-            month: item.month,
-            savings: diff > 0 ? diff : 0,
-            overspend: diff < 0 ? -diff : 0
-        }
-    })
-  }, [])
 
   return (
     <>
