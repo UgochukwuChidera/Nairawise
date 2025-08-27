@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, CircleUser } from '@/components/icons'
 import { Button } from '@/components/ui/button'
@@ -22,6 +23,7 @@ import { Sun, Moon } from 'lucide-react'
 
 export function Header() {
   const { setTheme } = useTheme()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const navItems = [
     { href: '/', label: 'Dashboard' },
@@ -31,11 +33,34 @@ export function Header() {
     { href: '/blog', label: 'Blog' },
     { href: '/hub', label: 'Hub' },
   ]
+  
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false)
+  }
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between gap-4 border-b bg-background/95 px-4 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-6">
+      <div className="flex items-center gap-6 md:flex-1">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+        >
+          <Logo />
+        </Link>
+      </div>
+
+      <div className="hidden flex-1 justify-center md:flex">
+        <nav className="flex items-center gap-8 text-sm lg:gap-10">
+          {navItems.map((item) => (
+            <NavLink key={item.href} href={item.href}>
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+      </div>
+      
       {/* Mobile Nav */}
-      <Sheet>
+      <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
             <Menu className="h-5 w-5" />
@@ -47,40 +72,21 @@ export function Header() {
             <Link
               href="/"
               className="flex items-center gap-2 text-lg font-semibold mb-4"
+              onClick={handleLinkClick}
             >
               <Logo />
             </Link>
             {navItems.map((item) => (
-              <NavLink key={item.href} href={item.href}>
+              <NavLink key={item.href} href={item.href} onClick={handleLinkClick}>
                 {item.label}
               </NavLink>
             ))}
           </nav>
         </SheetContent>
       </Sheet>
-
-      {/* Desktop Nav */}
-      <div className="hidden md:flex items-center gap-6">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
-        >
-          <Logo />
-        </Link>
-      </div>
-
-      <div className="hidden md:flex justify-center flex-1">
-        <nav className="flex items-center gap-8 text-sm lg:gap-10">
-          {navItems.map((item) => (
-            <NavLink key={item.href} href={item.href}>
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
       
-      {/* Center Logo on Mobile */}
-      <div className="md:hidden">
+      {/* Center Logo on Mobile - This is handled by the flex layout now */}
+       <div className="md:hidden flex-1 justify-center flex">
          <Link
             href="/"
             className="flex items-center gap-2 text-lg font-semibold md:text-base"
@@ -89,8 +95,9 @@ export function Header() {
         </Link>
       </div>
 
+
       {/* Right: Toggles and User Menu */}
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-end md:flex-1">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
