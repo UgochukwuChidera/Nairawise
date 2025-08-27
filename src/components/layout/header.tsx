@@ -60,9 +60,9 @@ export function Header() {
       </Sheet>
 
       {/* Desktop Nav */}
-      <div className="hidden md:flex w-full items-center justify-between">
+      <div className="hidden md:flex w-full items-center">
         {/* Left: Logo */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 flex justify-start">
           <Link
             href="/"
             className="flex items-center gap-2 text-lg font-semibold md:text-base"
@@ -73,7 +73,7 @@ export function Header() {
         
         {/* Center: Nav Links */}
         <nav className="flex-1 flex justify-center">
-            <div className="flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-8 md:text-sm lg:gap-10">
+            <div className="flex items-center gap-8 text-sm lg:gap-10">
                 {navItems.map((item) => (
                     <NavLink key={item.href} href={item.href}>
                         {item.label}
@@ -83,7 +83,7 @@ export function Header() {
         </nav>
 
         {/* Right: Toggles and User Menu */}
-        <div className="flex flex-1 items-center justify-end gap-4 min-w-0">
+        <div className="flex flex-1 items-center justify-end">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="icon" className="rounded-full">
