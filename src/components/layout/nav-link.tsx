@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import type { LucideIcon } from 'lucide-react'
 
 type NavLinkProps = {
   href: string
@@ -18,8 +17,8 @@ export function NavLink({ href, children }: NavLinkProps) {
     <Link
       href={href}
       className={cn(
-        'flex items-center gap-2 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-        isActive && 'bg-primary/10 text-primary font-semibold'
+        'text-sm font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary',
+        isActive && 'text-primary'
       )}
     >
       {children}
