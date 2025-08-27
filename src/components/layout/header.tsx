@@ -19,7 +19,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTr
 import { Logo } from '@/components/logo'
 import { NavLink } from './nav-link'
 import { useTheme } from 'next-themes'
-import { Sun, Moon, AreaChart } from 'lucide-react'
+import { Sun, Moon } from 'lucide-react'
 
 export function Header() {
   const { setTheme } = useTheme()
@@ -32,7 +32,6 @@ export function Header() {
     { href: '/assistant', label: 'Assistant' },
     { href: '/blog', label: 'Blog' },
     { href: '/hub', label: 'Hub' },
-    { href: '/analytics', label: 'Analytics' },
   ]
   
   const handleLinkClick = () => {
@@ -42,7 +41,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between gap-4 border-b bg-background/95 px-4 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-6">
       {/* Desktop Navigation */}
-      <nav className="hidden items-center gap-6 text-lg font-medium md:flex">
+      <nav className="hidden flex-1 items-center gap-6 text-lg font-medium md:flex">
         <Link
           href="/"
           className="flex items-center gap-2 text-lg font-semibold"
@@ -95,7 +94,7 @@ export function Header() {
             </Link>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="icon" className="rounded-full">
