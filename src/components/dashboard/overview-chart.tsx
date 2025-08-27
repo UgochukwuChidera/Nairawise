@@ -73,7 +73,7 @@ export function OverviewChart() {
             overspend: diff < 0 ? -diff : 0
         }
     })
-  }, [data])
+  }, [])
 
   return (
     <>
