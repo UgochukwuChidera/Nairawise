@@ -1,6 +1,6 @@
 'use client'
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from 'recharts'
+import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts'
 import { ChartTooltipContent, ChartContainer } from '@/components/ui/chart'
 
 const data = [
@@ -15,8 +15,9 @@ const data = [
 export function OverviewChart() {
   return (
     <ChartContainer config={{}} className="h-[300px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis
             dataKey="month"
             stroke="#888888"
@@ -34,15 +35,16 @@ export function OverviewChart() {
             <Tooltip
             content={<ChartTooltipContent
                 formatter={(value, name) => {
-                    return [`₦${value.toLocaleString()}`, name]
+                    const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+                    return [`₦${value.toLocaleString()}`, formattedName]
                 }}
             />}
             />
-            <Legend />
-            <Bar dataKey="income" fill="var(--color-income, hsl(var(--primary)))" radius={4} name="Income" />
-            <Bar dataKey="expenses" fill="var(--color-expenses, hsl(var(--secondary)))" radius={4} name="Expenses" />
-        </BarChart>
-        </ResponsiveContainer>
+            <Legend wrapperStyle={{paddingTop: '20px'}}/>
+            <Line type="monotone" dataKey="income" stroke="hsl(var(--primary))" strokeWidth={2} name="Income" dot={{ r: 4, fill: 'hsl(var(--primary))' }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="expenses" stroke="hsl(var(--destructive))" strokeWidth={2} name="Expenses" dot={{ r: 4, fill: 'hsl(var(--destructive))' }} activeDot={{ r: 6 }} />
+        </LineChart>
+      </ResponsiveContainer>
     </ChartContainer>
   )
 }
