@@ -40,64 +40,58 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between gap-4 border-b bg-background/95 px-4 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/60 md:px-6">
-      <div className="flex items-center gap-6 md:flex-1">
+      {/* Left side: Desktop Logo and Mobile Menu Trigger */}
+      <div className="flex items-center gap-4">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+          className="hidden items-center gap-2 text-lg font-semibold md:flex"
         >
           <Logo />
         </Link>
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle navigation menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="flex flex-col">
+            <nav className="grid gap-4 text-base font-medium">
+              <Link
+                href="/"
+                className="mb-4 flex items-center gap-2 text-lg font-semibold"
+                onClick={handleLinkClick}
+              >
+                <Logo />
+              </Link>
+              {navItems.map((item) => (
+                <NavLink key={item.href} href={item.href} onClick={handleLinkClick}>
+                  {item.label}
+                </NavLink>
+              ))}
+            </nav>
+          </SheetContent>
+        </Sheet>
       </div>
 
-      <div className="hidden flex-1 justify-center md:flex">
-        <nav className="flex items-center gap-8 text-sm lg:gap-10">
+      {/* Center: Desktop Nav and Mobile Logo */}
+      <div className="flex flex-1 justify-center">
+        <nav className="hidden items-center gap-8 text-sm md:flex lg:gap-10">
           {navItems.map((item) => (
             <NavLink key={item.href} href={item.href}>
               {item.label}
             </NavLink>
           ))}
         </nav>
-      </div>
-      
-      {/* Mobile Nav */}
-      <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col">
-          <nav className="grid gap-4 text-base font-medium">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-lg font-semibold mb-4"
-              onClick={handleLinkClick}
-            >
-              <Logo />
+        <div className="flex justify-center md:hidden">
+            <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
+                <Logo />
             </Link>
-            {navItems.map((item) => (
-              <NavLink key={item.href} href={item.href} onClick={handleLinkClick}>
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
-        </SheetContent>
-      </Sheet>
-      
-      {/* Center Logo on Mobile - This is handled by the flex layout now */}
-       <div className="md:hidden flex-1 justify-center flex">
-         <Link
-            href="/"
-            className="flex items-center gap-2 text-lg font-semibold md:text-base"
-            >
-            <Logo />
-        </Link>
+        </div>
       </div>
 
-
-      {/* Right: Toggles and User Menu */}
-      <div className="flex items-center justify-end md:flex-1">
+      {/* Right side: User Menu */}
+      <div className="flex items-center justify-end">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
@@ -112,8 +106,8 @@ export function Header() {
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 mr-2" />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 mr-2" />
+                <Sun className="mr-2 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute mr-2 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                 <span>Toggle Theme</span>
               </DropdownMenuSubTrigger>
               <DropdownMenuSubContent>
