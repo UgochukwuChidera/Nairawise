@@ -26,8 +26,32 @@ import { NavLink } from './nav-link'
 import { ModeToggle } from './mode-toggle'
 
 export function Header() {
+  const navItems = [
+    { href: '/', icon: Home, label: 'Dashboard' },
+    { href: '/budget', icon: Wallet, label: 'Budget Planner' },
+    { href: '/bills', icon: Receipt, label: 'Bill Tracker' },
+    { href: '/assistant', icon: Bot, label: 'Smart Assistant' },
+    { href: '/blog', icon: Newspaper, label: 'Finance Blog' },
+    { href: '/hub', icon: Users, label: 'Discussion Hub' },
+  ];
+
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 sticky top-0 z-30">
+    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6">
+      <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+        >
+          <Logo />
+          <span className="sr-only">NairaWise</span>
+        </Link>
+        {navItems.map((item) => (
+            <NavLink key={item.href} href={item.href} icon={item.icon}>
+                {item.label}
+            </NavLink>
+        ))}
+      </nav>
+      
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
@@ -38,30 +62,17 @@ export function Header() {
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
-              href="#"
+              href="/"
               className="flex items-center gap-2 text-lg font-semibold mb-4"
             >
               <Logo />
               <span className="sr-only">NairaWise</span>
             </Link>
-            <NavLink href="/" icon={Home}>
-              Dashboard
-            </NavLink>
-            <NavLink href="/budget" icon={Wallet}>
-              Budget Planner
-            </NavLink>
-            <NavLink href="/bills" icon={Receipt}>
-              Bill Tracker
-            </NavLink>
-            <NavLink href="/assistant" icon={Bot}>
-              Smart Assistant
-            </NavLink>
-            <NavLink href="/blog" icon={Newspaper}>
-              Finance Blog
-            </NavLink>
-            <NavLink href="/hub" icon={Users}>
-              Discussion Hub
-            </NavLink>
+            {navItems.map((item) => (
+                <NavLink key={item.href} href={item.href} icon={item.icon}>
+                    {item.label}
+                </NavLink>
+            ))}
           </nav>
         </SheetContent>
       </Sheet>
