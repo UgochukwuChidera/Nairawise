@@ -23,7 +23,9 @@ export function OverviewChart() {
   const [hiddenSeries, setHiddenSeries] = useState(initialHidden)
 
   const handleLegendClick = (dataKey: string) => {
-    setHiddenSeries(prev => ({ ...prev, [dataKey]: !prev[dataKey as keyof typeof prev] }))
+    if (dataKey === 'previousIncome' || dataKey === 'previousExpenses') {
+      setHiddenSeries(prev => ({ ...prev, [dataKey]: !prev[dataKey as keyof typeof prev] }))
+    }
   }
 
   const renderLegend = (props: LegendsWithRender) => {
@@ -31,20 +33,22 @@ export function OverviewChart() {
     return (
       <ul className="flex justify-center gap-4 pt-5">
         {
-          payload.map((entry, index) => (
-            <li
-              key={`item-${index}`}
-              onClick={() => handleLegendClick(entry.dataKey)}
-              className="flex items-center gap-2 cursor-pointer"
-              style={{
-                 opacity: (hiddenSeries as any)[entry.dataKey] ? 0.5 : 1,
-                 textDecoration: (entry.dataKey === 'previousIncome' || entry.dataKey === 'previousExpenses') ? 'none' : 'none',
-               }}
-            >
-              <span style={{ backgroundColor: entry.color, width: 10, height: 10, display: 'inline-block', borderRadius: '50%' }}></span>
-              {entry.value}
-            </li>
-          ))
+          payload.map((entry, index) => {
+            const isClickable = entry.dataKey === 'previousIncome' || entry.dataKey === 'previousExpenses'
+            return (
+              <li
+                key={`item-${index}`}
+                onClick={() => handleLegendClick(entry.dataKey)}
+                className={`flex items-center gap-2 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
+                style={{
+                   opacity: (hiddenSeries as any)[entry.dataKey] ? 0.5 : 1,
+                 }}
+              >
+                <span style={{ backgroundColor: entry.color, width: 10, height: 10, display: 'inline-block', borderRadius: '50%' }}></span>
+                {entry.value}
+              </li>
+            )
+          })
         }
       </ul>
     );

@@ -10,13 +10,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent
 } from '@/components/ui/dropdown-menu'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Logo } from '@/components/logo'
 import { NavLink } from './nav-link'
-import { ModeToggle } from './mode-toggle'
+import { useTheme } from 'next-themes'
+import { Sun, Moon } from 'lucide-react'
 
 export function Header() {
+  const { setTheme } = useTheme()
+
   const navItems = [
     { href: '/', label: 'Dashboard' },
     { href: '/budget', label: 'Budget' },
@@ -54,14 +60,16 @@ export function Header() {
       </Sheet>
 
       {/* Desktop Nav */}
-      <div className="hidden md:flex w-full items-center">
+      <div className="hidden md:flex w-full items-center justify-between">
         {/* Left: Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
-        >
-          <Logo />
-        </Link>
+        <div className="flex-1 min-w-0">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-lg font-semibold md:text-base"
+          >
+            <Logo />
+          </Link>
+        </div>
         
         {/* Center: Nav Links */}
         <nav className="flex-1 flex justify-center">
@@ -75,8 +83,7 @@ export function Header() {
         </nav>
 
         {/* Right: Toggles and User Menu */}
-        <div className="flex items-center gap-4">
-            <ModeToggle />
+        <div className="flex flex-1 items-center justify-end gap-4 min-w-0">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="icon" className="rounded-full">
@@ -89,6 +96,18 @@ export function Header() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 mr-2" />
+                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 mr-2" />
+                    <span>Toggle Theme</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                      <DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Logout</DropdownMenuItem>
               </DropdownMenuContent>
