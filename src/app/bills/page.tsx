@@ -15,12 +15,20 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { bills } from '@/lib/placeholder-data'
-import { cn } from '@/lib/utils'
+import { AddBillDialog } from '@/components/bills/add-bill-dialog'
 
 export default function BillsPage() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Bill Tracker</h1>
+    <div className="flex flex-1 flex-col gap-6 md:gap-8">
+       <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Bill Tracker</h1>
+          <p className="text-muted-foreground mt-2">
+            Add, manage, and track all your upcoming bills.
+          </p>
+        </div>
+        <AddBillDialog />
+      </div>
       <Card>
         <CardHeader>
           <CardTitle>Upcoming Bills</CardTitle>
