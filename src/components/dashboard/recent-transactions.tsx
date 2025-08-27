@@ -23,7 +23,7 @@ import { cn } from '@/lib/utils'
 
 export function RecentTransactions() {
   return (
-    <Card>
+    <Card className="shadow-lg">
       <CardHeader className="flex flex-row items-center">
         <div className="grid gap-2">
           <CardTitle>Transactions</CardTitle>
@@ -55,7 +55,10 @@ export function RecentTransactions() {
                     {transaction.date}
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-medium">
+                <TableCell className={cn(
+                  "text-right font-bold",
+                  transaction.type === 'income' ? 'text-green-500' : 'text-red-500'
+                )}>
                   {transaction.type === 'income' ? '+' : '-'}₦{transaction.amount.toLocaleString()}
                 </TableCell>
               </TableRow>

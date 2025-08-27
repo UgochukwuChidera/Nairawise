@@ -23,10 +23,11 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Logo } from '@/components/logo'
 import { NavLink } from './nav-link'
+import { ModeToggle } from './mode-toggle'
 
 export function Header() {
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 sticky top-0 z-30">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
@@ -68,6 +69,8 @@ export function Header() {
       <div className="w-full flex-1">
         {/* Can add breadcrumbs or page title here later */}
       </div>
+
+      <ModeToggle />
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
