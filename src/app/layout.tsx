@@ -1,22 +1,27 @@
-import type { Metadata } from 'next'
+'use client'
+
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { Header } from '@/components/layout/header'
 import { ThemeProvider } from '@/components/theme-provider'
-
-export const metadata: Metadata = {
-  title: 'NairaWise',
-  description: 'A smart finance manager for students in Nigeria.',
-}
+import { useEffect, useState } from 'react'
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <title>NairaWise</title>
+        <meta name="description" content="A smart finance manager for students in Nigeria." />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -32,7 +37,7 @@ export default function RootLayout({
             disableTransitionOnChange
         >
             <div className="flex min-h-screen w-full flex-col">
-              <Header />
+              {isClient ? <Header /> : null}
               <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20">
                 {children}
               </main>
