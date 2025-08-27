@@ -25,7 +25,6 @@ export function Header() {
 
   const navItems = [
     { href: '/', label: 'Dashboard' },
-    { href: '/transactions', label: 'Transactions' },
     { href: '/budget', label: 'Budget' },
     { href: '/bills', label: 'Bills' },
     { href: '/assistant', label: 'Assistant' },

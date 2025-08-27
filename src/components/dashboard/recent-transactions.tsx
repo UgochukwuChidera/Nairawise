@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import {
   Card,
@@ -15,10 +14,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { transactions } from '@/lib/placeholder-data'
 import { cn } from '@/lib/utils'
+import { TransactionsDialog } from './transactions-dialog'
 
 
 export function RecentTransactions() {
@@ -31,12 +29,10 @@ export function RecentTransactions() {
             Recent transactions from your account.
           </CardDescription>
         </div>
-        <Button asChild size="sm" className="ml-auto gap-1">
-          <Link href="#">
-            View All
+        <TransactionsDialog>
             <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </Button>
+            View All
+        </TransactionsDialog>
       </CardHeader>
       <CardContent>
         <Table>
