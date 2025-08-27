@@ -51,7 +51,6 @@ export function OverviewChart() {
   
   const renderLegend = (props: LegendsWithRender) => {
     const { payload } = props;
-
     let activeLegends = payload;
 
     if (view === 'income-expense') {
@@ -61,7 +60,7 @@ export function OverviewChart() {
     } else if (view === 'savings-overspend') {
         const hasSavings = savingsData.some(item => item.savings > 0);
         const hasOverspend = savingsData.some(item => item.overspend > 0);
-
+        
         activeLegends = payload.filter(entry => {
             if (entry.dataKey === 'savings') return hasSavings;
             if (entry.dataKey === 'overspend') return hasOverspend;
@@ -140,13 +139,25 @@ export function OverviewChart() {
                 tickFormatter={(value) => `₦${value / 1000}k`}
                 />
                 <Tooltip
-                content={<ChartTooltipContent
-                    payload={(view === 'savings-overspend' && arguments[0]?.payload) ? arguments[0].payload.filter((p: any) => p.value > 0) : arguments[0]?.payload}
-                    formatter={(value, name) => {
-                        const formattedName = name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
-                        return [`₦${value.toLocaleString()}`, formattedName]
-                    }}
-                />}
+                content={({ active, payload, label }) => {
+                    const finalPayload =
+                    view === 'savings-overspend'
+                        ? payload?.filter((p) => p.value > 0)
+                        : payload;
+                    return (
+                    <ChartTooltipContent
+                        active={active}
+                        payload={finalPayload}
+                        label={label}
+                        formatter={(value, name) => {
+                        const formattedName = name
+                            .replace(/([A-Z])/g, ' $1')
+                            .replace(/^./, (str) => str.toUpperCase());
+                        return [`₦${(value as number).toLocaleString()}`, formattedName];
+                        }}
+                    />
+                    );
+                }}
                 />
                 <Legend content={renderLegend} />
 
