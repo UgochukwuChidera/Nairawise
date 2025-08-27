@@ -10,6 +10,7 @@ import { budgets } from '@/lib/placeholder-data'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
+import { BudgetCardActions } from '@/components/budget/budget-card-actions'
 
 function getProgressColor(percentage: number) {
   if (percentage > 90) return 'bg-destructive'
@@ -38,19 +39,22 @@ export default function BudgetPage() {
           const isOverBudget = budget.spent > budget.allocated
           return (
             <Card key={budget.id}>
-              <CardHeader>
-                <CardTitle>{budget.category}</CardTitle>
-                <CardDescription>
-                  {isOverBudget ? (
+              <CardHeader className="flex flex-row items-start justify-between">
+                <div>
+                  <CardTitle>{budget.category}</CardTitle>
+                  <CardDescription>
+                    {isOverBudget ? (
                      <span className="text-destructive font-medium">
                         ₦{(budget.spent - budget.allocated).toLocaleString()} over budget
                      </span>
-                  ) : (
-                    <span>
-                      ₦{(budget.allocated - budget.spent).toLocaleString()} left
-                    </span>
-                  )}
-                </CardDescription>
+                    ) : (
+                      <span>
+                        ₦{(budget.allocated - budget.spent).toLocaleString()} left
+                      </span>
+                    )}
+                  </CardDescription>
+                </div>
+                <BudgetCardActions budget={budget} />
               </CardHeader>
               <CardContent>
                 <Progress
