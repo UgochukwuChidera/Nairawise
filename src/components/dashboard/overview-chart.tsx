@@ -4,12 +4,12 @@ import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, Ca
 import { ChartTooltipContent, ChartContainer } from '@/components/ui/chart'
 
 const data = [
-  { month: 'Jul', income: 18600, expenses: 8000 },
-  { month: 'Aug', income: 30500, expenses: 13980 },
-  { month: 'Sep', income: 23700, expenses: 9800 },
-  { month: 'Oct', income: 65000, expenses: 17500 },
-  { month: 'Nov', income: 48900, expenses: 19800 },
-  { month: 'Dec', income: 43900, expenses: 18000 },
+  { month: 'Jul', income: 18600, expenses: 8000, previousIncome: 15000, previousExpenses: 7000 },
+  { month: 'Aug', income: 30500, expenses: 13980, previousIncome: 28000, previousExpenses: 12000 },
+  { month: 'Sep', income: 23700, expenses: 9800, previousIncome: 22000, previousExpenses: 10500 },
+  { month: 'Oct', income: 65000, expenses: 17500, previousIncome: 61000, previousExpenses: 16000 },
+  { month: 'Nov', income: 48900, expenses: 19800, previousIncome: 52000, previousExpenses: 21000 },
+  { month: 'Dec', income: 43900, expenses: 18000, previousIncome: 45000, previousExpenses: 19000 },
 ]
 
 export function OverviewChart() {
@@ -20,13 +20,13 @@ export function OverviewChart() {
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis
             dataKey="month"
-            stroke="#888888"
+            stroke="hsl(var(--muted-foreground))"
             fontSize={12}
             tickLine={false}
             axisLine={false}
             />
             <YAxis
-            stroke="#888888"
+            stroke="hsl(var(--muted-foreground))"
             fontSize={12}
             tickLine={false}
             axisLine={false}
@@ -35,7 +35,7 @@ export function OverviewChart() {
             <Tooltip
             content={<ChartTooltipContent
                 formatter={(value, name) => {
-                    const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+                    const formattedName = name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
                     return [`₦${value.toLocaleString()}`, formattedName]
                 }}
             />}
@@ -43,6 +43,8 @@ export function OverviewChart() {
             <Legend wrapperStyle={{paddingTop: '20px'}}/>
             <Line type="monotone" dataKey="income" stroke="hsl(var(--primary))" strokeWidth={2} name="Income" dot={{ r: 4, fill: 'hsl(var(--primary))' }} activeDot={{ r: 6 }} />
             <Line type="monotone" dataKey="expenses" stroke="hsl(var(--destructive))" strokeWidth={2} name="Expenses" dot={{ r: 4, fill: 'hsl(var(--destructive))' }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="previousIncome" stroke="hsl(var(--primary) / 0.5)" strokeWidth={2} name="Past Income" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="previousExpenses" stroke="hsl(var(--destructive) / 0.5)" strokeWidth={2} name="Past Expenses" strokeDasharray="5 5" dot={false} activeDot={{ r: 6 }} />
         </LineChart>
       </ResponsiveContainer>
     </ChartContainer>
