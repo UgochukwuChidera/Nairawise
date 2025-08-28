@@ -9,4 +9,10 @@ export {
   Users,
   Menu,
   CircleUser,
+  ArrowUp,
+  ArrowDown,
+  Smile,
+  Flag,
+  MessageSquare as Reply,
+  Share2,
 } from 'lucide-react';
