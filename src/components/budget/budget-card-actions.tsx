@@ -42,7 +42,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useToast } from "@/hooks/use-toast"
+import { useBudget } from "@/context/budget-context"
 
 const formSchema = z.object({
   category: z.string().min(2, {
@@ -55,12 +55,13 @@ const formSchema = z.object({
 
 type BudgetCardActionsProps = {
   budget: Budget
+  trigger?: React.ReactNode
 }
 
-export function BudgetCardActions({ budget }: BudgetCardActionsProps) {
+export function BudgetCardActions({ budget, trigger }: BudgetCardActionsProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
-  const { toast } = useToast()
+  const { updateBudget, deleteBudget } = useBudget()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,33 +71,35 @@ export function BudgetCardActions({ budget }: BudgetCardActionsProps) {
     },
   })
 
-  function onEditSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Updating budget:", values)
-    toast({
-      title: "Budget Updated",
-      description: `The ${values.category} budget has been successfully updated.`,
+  React.useEffect(() => {
+    form.reset({
+        category: budget.category,
+        allocated: budget.allocated,
     })
+  }, [budget, form])
+
+  function onEditSubmit(values: z.infer<typeof formSchema>) {
+    updateBudget(budget.id, values)
     setIsEditDialogOpen(false)
   }
 
   function onDeleteConfirm() {
-    console.log("Deleting budget:", budget.id)
-    toast({
-      title: "Budget Deleted",
-      description: `The ${budget.category} budget has been deleted.`,
-      variant: "destructive",
-    })
+    deleteBudget(budget.id)
     setIsDeleteDialogOpen(false)
   }
+  
+  const defaultTrigger = (
+    <Button variant="ghost" size="icon" className="h-8 w-8">
+      <MoreHorizontal className="h-4 w-4" />
+      <span className="sr-only">More options</span>
+    </Button>
+  );
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <MoreHorizontal className="h-4 w-4" />
-            <span className="sr-only">More options</span>
-          </Button>
+            {trigger || defaultTrigger}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onSelect={() => setIsEditDialogOpen(true)}>

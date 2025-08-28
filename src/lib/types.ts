@@ -53,3 +53,10 @@ export type SavingsData = {
     savings: number;
     overspend: number;
 }
+
+export type BudgetContextType = {
+  budgets: Budget[];
+  addBudget: (budget: Omit<Budget, 'id' | 'spent'>) => void;
+  updateBudget: (id: string, updatedBudget: Partial<Omit<Budget, 'id' | 'spent'>>) => void;
+  deleteBudget: (id: string) => void;
+};

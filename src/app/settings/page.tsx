@@ -1,11 +1,13 @@
+'use client'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { ThemeToggle } from '@/components/settings/theme-toggle'
-import { Separator } from '@/components/ui/separator'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { BudgetSettings } from '@/components/settings/budget-settings'
 
 export default function SettingsPage() {
   return (
@@ -52,6 +54,8 @@ export default function SettingsPage() {
           </div>
         </CardContent>
       </Card>
+
+      <BudgetSettings />
       
       <Card>
         <CardHeader>

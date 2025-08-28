@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -6,11 +8,10 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import { budgets } from '@/lib/placeholder-data'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
 import { BudgetCardActions } from '@/components/budget/budget-card-actions'
+import { useBudget } from '@/context/budget-context'
+import { AddBudgetDialog } from '@/components/budget/add-budget-dialog'
 
 function getProgressColor(percentage: number) {
   if (percentage > 90) return 'bg-destructive'
@@ -19,6 +20,8 @@ function getProgressColor(percentage: number) {
 }
 
 export default function BudgetPage() {
+  const { budgets } = useBudget();
+
   return (
     <div className="flex flex-1 flex-col gap-6 md:gap-8">
        <div className="flex items-start justify-between">
@@ -29,10 +32,7 @@ export default function BudgetPage() {
           </p>
         </div>
         <div className="ml-4 shrink-0">
-            <Button size="icon" className="rounded-full shadow-lg">
-                <Plus className="h-5 w-5" />
-                <span className="sr-only">Add new budget</span>
-            </Button>
+            <AddBudgetDialog />
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -71,6 +71,11 @@ export default function BudgetPage() {
             </Card>
           )
         })}
+         {budgets.length === 0 && (
+            <Card className="md:col-span-2 lg:col-span-3 flex items-center justify-center h-48">
+                <p className="text-muted-foreground">No budgets created yet. Click the '+' button to add one.</p>
+            </Card>
+        )}
       </div>
     </div>
   )
