@@ -3,6 +3,7 @@ import { OverviewChart } from "@/components/dashboard/overview-chart"
 import { RecentTransactions } from "@/components/dashboard/recent-transactions"
 import { StatCards } from "@/components/dashboard/stats-cards"
 import { AddRecordDialog } from "@/components/dashboard/add-record-dialog"
+import { ShowValuesToggle } from "@/components/dashboard/show-values-toggle"
 
 export default function DashboardPage() {
   return (
@@ -12,7 +13,8 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-bold tracking-tight">Welcome Back</h1>
           <p className="text-muted-foreground mt-2">Here's a snapshot of your financial health.</p>
         </div>
-        <div className="shrink-0">
+        <div className="flex items-center gap-2">
+          <ShowValuesToggle />
           <AddRecordDialog />
         </div>
       </div>
