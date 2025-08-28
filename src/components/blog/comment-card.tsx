@@ -1,3 +1,4 @@
+
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -8,6 +9,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import {
   Tooltip,
   TooltipContent,
@@ -23,6 +29,7 @@ import {
   Share2,
   MoreHorizontal,
 } from '@/components/icons'
+import EmojiPicker from 'emoji-picker-react'
 
 type Comment = {
   id: string
@@ -38,7 +45,7 @@ type CommentCardProps = {
 }
 
 export function CommentCard({ comment }: CommentCardProps) {
-  const reactions = ['👍', '❤️', '😂', '😮', '😢', '😡']
+  const reactions = ['❤️', '😂', '🔥', '🎉', '😢', '😮']
 
   return (
     <div className="flex gap-4">
@@ -114,6 +121,14 @@ export function CommentCard({ comment }: CommentCardProps) {
                         </Button>
                     </DropdownMenuItem>
                 ))}
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-lg">+</Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 border-0">
+                        <EmojiPicker />
+                    </PopoverContent>
+                </Popover>
               </DropdownMenuContent>
             </DropdownMenu>
 
