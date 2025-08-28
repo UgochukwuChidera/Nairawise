@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react'
@@ -24,10 +25,12 @@ const MoneyValue = ({ value }: { value: number }) => {
     minimumFractionDigits: 2,
   }).format(value)
 
+  const maskedValue = formattedValue.replace(/[0-9]/g, '*')
+
   return (
     <div className="flex items-center gap-2">
-      <span className={cn("text-2xl font-bold", !isVisible && "blur-sm")}>
-        {isVisible ? formattedValue : '₦***,***.**'}
+      <span className="text-2xl font-bold">
+        {isVisible ? formattedValue : maskedValue}
       </span>
       <Button variant="ghost" size="icon" onClick={toggleVisibility} className="h-8 w-8 shrink-0">
         {isVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
