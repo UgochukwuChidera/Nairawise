@@ -15,4 +15,5 @@ export {
   Flag,
   MessageSquare as Reply,
   Share2,
+  MoreHorizontal,
 } from 'lucide-react';
