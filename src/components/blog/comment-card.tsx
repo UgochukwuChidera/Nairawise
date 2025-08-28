@@ -45,7 +45,7 @@ type CommentCardProps = {
 }
 
 export function CommentCard({ comment }: CommentCardProps) {
-  const reactions = ['❤️', '😂', '🔥', '🎉', '😢', '😮']
+  const reactions = ['❤️', '😂', '👍', '🔥', '🎉', '🤔']
 
   return (
     <div className="flex gap-4">
