@@ -1,6 +1,7 @@
+
 'use client'
 
-import { Bell, Receipt, Users, TrendingUp, TrendingDown } from 'lucide-react'
+import { Bell } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -13,15 +14,21 @@ import {
 } from '@/components/ui/sheet'
 import { notifications } from '@/lib/placeholder-data'
 import type { Notification } from '@/lib/types'
-import { cn } from '@/lib/utils'
 import { ScrollArea } from '../ui/scroll-area'
+import { Card } from '../ui/card'
+import {
+    TrendingUp,
+    TrendingDown,
+    Receipt,
+    Users
+} from 'lucide-react'
 
 const iconMap: { [key in Notification['type']]: React.ReactNode } = {
   bill_due: <Receipt className="h-5 w-5 text-yellow-500" />,
   budget_exceeded: <TrendingDown className="h-5 w-5 text-red-500" />,
   new_reply: <Users className="h-5 w-5 text-blue-500" />,
   income_received: <TrendingUp className="h-5 w-5 text-green-500" />,
-}
+};
 
 export function Notifications() {
   const unreadCount = notifications.filter((n) => !n.isRead).length
@@ -47,22 +54,24 @@ export function Notifications() {
           </SheetDescription>
         </SheetHeader>
         <div className="flex-1 overflow-hidden">
-          <ScrollArea className="h-full">
-            <div className="space-y-4 pr-4">
+          <ScrollArea className="h-full pr-4 no-scrollbar">
+            <div className="space-y-4">
               {notifications.map((notification) => (
-                <div key={notification.id} className="flex items-start gap-4 p-4 rounded-lg bg-muted/50 relative border">
-                   {!notification.isRead && (
-                    <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-primary" />
-                  )}
-                  <div className="flex-shrink-0 mt-1">
-                    {iconMap[notification.type]}
+                <Card key={notification.id} className="p-4 relative">
+                  <div className="flex items-start gap-4">
+                    {!notification.isRead && (
+                      <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-primary" />
+                    )}
+                    <div className="flex-shrink-0 mt-1">
+                      {iconMap[notification.type]}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold">{notification.title}</p>
+                      <p className="text-sm text-muted-foreground">{notification.message}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{notification.timestamp}</p>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="font-semibold">{notification.title}</p>
-                    <p className="text-sm text-muted-foreground">{notification.message}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{notification.timestamp}</p>
-                  </div>
-                </div>
+                </Card>
               ))}
             </div>
           </ScrollArea>
