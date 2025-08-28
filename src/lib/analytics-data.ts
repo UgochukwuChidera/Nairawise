@@ -55,4 +55,3 @@ export const calculateRollingAverage = (data: DailySpend[], windowSize: number):
   }
   return averages;
 };
-
