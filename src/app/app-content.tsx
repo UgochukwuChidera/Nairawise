@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
 import { usePathname, useRouter } from "next/navigation";
 import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 export default function AppContent({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isSubscribed, isLoading } = useAuth();
@@ -53,6 +54,7 @@ export default function AppContent({ children }: { children: React.ReactNode }) 
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20">
           {children}
         </main>
+        <Footer />
       </div>
     );
   }
