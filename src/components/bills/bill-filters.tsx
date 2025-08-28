@@ -4,7 +4,7 @@
 import * as React from "react"
 import { format } from "date-fns"
 import type { DateRange } from "react-day-picker"
-import { Calendar as CalendarIcon, ListFilter, ArrowDown, ArrowUp } from "lucide-react"
+import { Calendar as CalendarIcon, ListFilter } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -36,7 +36,6 @@ type BillFiltersProps = {
   setMinAmount: (value: string) => void
   maxAmount: string
   setMaxAmount: (value: string) => void
-  sortOrder: 'newest' | 'oldest'
   setSortOrder: (value: 'newest' | 'oldest') => void
 }
 
@@ -53,7 +52,6 @@ export function BillFilters({
   setMinAmount,
   maxAmount,
   setMaxAmount,
-  sortOrder,
   setSortOrder,
 }: BillFiltersProps) {
 
@@ -79,11 +77,12 @@ export function BillFilters({
       <CardHeader>
         <CardTitle className="text-lg">Filters</CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
         <Input
           placeholder="Search by bill name..."
           value={nameFilter}
           onChange={(e) => setNameFilter(e.target.value)}
+          className="xl:col-span-1"
         />
         <Popover>
           <PopoverTrigger asChild>
@@ -161,15 +160,6 @@ export function BillFilters({
             />
         </div>
         
-        <div className="flex gap-2">
-            <Button variant={sortOrder === 'newest' ? 'secondary' : 'outline'} className="w-full" onClick={() => setSortOrder('newest')}>
-                <ArrowDown className="mr-2 h-4 w-4" /> Newest First
-            </Button>
-            <Button variant={sortOrder === 'oldest' ? 'secondary' : 'outline'} className="w-full" onClick={() => setSortOrder('oldest')}>
-                <ArrowUp className="mr-2 h-4 w-4" /> Oldest First
-            </Button>
-        </div>
-
         <Button variant="ghost" onClick={clearFilters} className="w-full">Clear Filters</Button>
       </CardContent>
     </Card>
