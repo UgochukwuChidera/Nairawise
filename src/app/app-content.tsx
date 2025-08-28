@@ -20,19 +20,19 @@ export default function AppContent({ children }: { children: React.ReactNode }) 
     if (isLoading || !isClient) return;
 
     const isAuthRoute = pathname === "/auth";
-    const isPricingRoute = pathname === "/pricing";
+    const isPublicSubscriptionRoute = pathname === "/pricing" || pathname === "/verify";
 
     if (!isAuthenticated && !isAuthRoute) {
       router.push("/auth");
     } else if (isAuthenticated && isAuthRoute) {
       router.push("/");
-    } else if (isAuthenticated && !isSubscribed && !isPricingRoute) {
+    } else if (isAuthenticated && !isSubscribed && !isPublicSubscriptionRoute) {
       router.push("/pricing");
     }
   }, [isAuthenticated, isSubscribed, isLoading, router, pathname, isClient]);
 
   const isAuthPage = pathname === "/auth";
-  const isPricingPage = pathname === "/pricing";
+  const isSubscriptionPage = pathname === "/pricing" || pathname === "/verify";
 
   if (isLoading || !isClient) {
     return (
@@ -42,7 +42,7 @@ export default function AppContent({ children }: { children: React.ReactNode }) 
     );
   }
 
-  if (isAuthPage || isPricingPage) {
+  if (isAuthPage || isSubscriptionPage) {
     return <>{children}</>;
   }
 
@@ -57,6 +57,8 @@ export default function AppContent({ children }: { children: React.ReactNode }) 
     );
   }
 
+  // This fallback handles the brief moment before the redirect logic kicks in,
+  // especially for authenticated but unsubscribed users on non-subscription pages.
   return (
     <div className="flex items-center justify-center min-h-screen">
       <p>Loading...</p>
