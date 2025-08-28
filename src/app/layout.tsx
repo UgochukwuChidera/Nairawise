@@ -1,79 +1,11 @@
 
-'use client'
-
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
-import { Header } from '@/components/layout/header'
 import { ThemeProvider } from '@/components/theme-provider'
 import { BudgetProvider } from '@/context/budget-context'
 import { SettingsProvider } from '@/context/settings-context'
-import { useEffect, useState } from 'react'
-import { AuthProvider, useAuth } from '@/context/auth-context'
-import { usePathname, useRouter } from 'next/navigation'
-
-function AppContent({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isSubscribed, isLoading } = useAuth();
-  const router = useRouter();
-  const pathname = usePathname();
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-  
-  useEffect(() => {
-    if (isLoading || !isClient) return;
-
-    const isAuthRoute = pathname === '/auth';
-    const isPricingRoute = pathname === '/pricing';
-
-    if (!isAuthenticated && !isAuthRoute) {
-      router.push('/auth');
-    } else if (isAuthenticated && isAuthRoute) {
-      router.push('/');
-    } else if (isAuthenticated && !isSubscribed && !isPricingRoute) {
-        router.push('/pricing');
-    }
-
-  }, [isAuthenticated, isSubscribed, isLoading, router, pathname, isClient]);
-
-  const isAuthPage = pathname === '/auth';
-  const isPricingPage = pathname === '/pricing';
-
-  // Show a loading screen until we're sure about the auth state and are on the client
-  if (isLoading || !isClient) {
-    return (
-        <div className="flex items-center justify-center min-h-screen">
-            <p>Loading...</p>
-        </div>
-    )
-  }
-  
-  // Render auth/pricing pages directly
-  if (isAuthPage || isPricingPage) {
-    return <>{children}</>
-  }
-
-  // For protected routes, ensure user is authenticated and subscribed before rendering the layout
-  if (isAuthenticated && isSubscribed) {
-    return (
-      <div className="flex min-h-screen w-full flex-col">
-        <Header />
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20">
-          {children}
-        </main>
-      </div>
-    );
-  }
-
-  // Fallback loading state while redirection happens
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-        <p>Loading...</p>
-    </div>
-  );
-}
-
+import { AuthProvider } from '@/context/auth-context'
+import AppContent from './app-content'
 
 export default function RootLayout({
   children,
