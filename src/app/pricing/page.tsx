@@ -1,22 +1,28 @@
 
 'use client'
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useAuth } from "@/context/auth-context";
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Logo } from "@/components/logo";
+import { Input } from "@/components/ui/input";
 
 export default function PricingPage() {
     const { subscribe } = useAuth();
     const router = useRouter();
+    const [productId, setProductId] = useState('');
 
-    const handleSubscribe = () => {
-        subscribe();
-        router.push('/');
+    const handleSubscribe = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (productId.trim()) {
+            subscribe();
+            router.push('/');
+        }
     }
 
     const features = [
@@ -60,13 +66,30 @@ export default function PricingPage() {
                     </div>
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4">
-                    <div className="flex items-center space-x-2">
-                        <Switch id="auto-renew" defaultChecked />
-                        <Label htmlFor="auto-renew">Auto-renew subscription</Label>
-                    </div>
-                    <Button className="w-full" size="lg" onClick={handleSubscribe}>
-                        Subscribe Now
-                    </Button>
+                    <form onSubmit={handleSubscribe} className="w-full space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="product-id">Product ID</Label>
+                            <Input 
+                                id="product-id"
+                                placeholder="Enter your product ID"
+                                value={productId}
+                                onChange={(e) => setProductId(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Switch id="auto-renew" defaultChecked />
+                            <Label htmlFor="auto-renew">Auto-renew subscription</Label>
+                        </div>
+                        <Button 
+                            type="submit" 
+                            className="w-full" 
+                            size="lg" 
+                            disabled={!productId.trim()}
+                        >
+                            Subscribe Now
+                        </Button>
+                    </form>
                 </CardFooter>
             </Card>
         </div>
