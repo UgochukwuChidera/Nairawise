@@ -5,7 +5,7 @@ import * as React from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { dailySpendData } from '@/lib/analytics-data'
 import { Button } from '../ui/button'
-import { BrainCircuit } from 'lucide-react'
+import { RefreshCw } from 'lucide-react'
 import { useSettings } from '@/context/settings-context'
 import { cn } from '@/lib/utils'
 
@@ -64,7 +64,7 @@ export function SpendPredictor() {
     <Card>
       <CardHeader>
         <CardTitle>Next Day's Spend Prediction</CardTitle>
-        <CardDescription>An AI-powered estimate of your spending tomorrow.</CardDescription>
+        <CardDescription>A statistical estimate of your spending tomorrow.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-4 text-center">
         <div className="text-4xl font-bold">
@@ -80,7 +80,7 @@ export function SpendPredictor() {
             Based on your recent spending habits and trends.
         </p>
         <Button onClick={handleRecalculate}>
-            <BrainCircuit className="mr-2" />
+            <RefreshCw className="mr-2" />
             Recalculate
         </Button>
       </CardContent>
