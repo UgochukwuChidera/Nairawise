@@ -6,17 +6,17 @@ import {
   CardTitle,
   CardFooter,
 } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { threads } from '@/lib/placeholder-data'
 import { MessageSquare } from 'lucide-react'
 import Link from 'next/link'
+import { StartDiscussionDialog } from '@/components/hub/start-discussion-dialog'
 
 export default function HubPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold tracking-tight">Discussion Hub</h1>
-        <Button>Start a New Discussion</Button>
+        <StartDiscussionDialog />
       </div>
       <div className="space-y-4">
         {threads.map((thread) => (

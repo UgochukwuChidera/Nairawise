@@ -4,6 +4,17 @@ import * as React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -12,11 +23,14 @@ import {
 import {
   ArrowUp,
   ArrowDown,
-  MessageSquare,
+  Smile,
+  Flag,
+  Reply,
+  Share2,
   MoreHorizontal,
-} from 'lucide-react'
+} from '@/components/icons'
+import EmojiPicker from 'emoji-picker-react'
 import type { ThreadComment } from '@/lib/types'
-import { cn } from '@/lib/utils'
 import { CommentForm } from '../blog/comment-form'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible'
 
@@ -30,6 +44,7 @@ export function ReplyCard({ comment, level = 0 }: ReplyCardProps) {
     const [isCollapsed, setIsCollapsed] = React.useState(false);
 
     const toggleReply = () => setIsReplying(prev => !prev);
+    const reactions = ['❤️', '😂', '👍', '🔥', '🎉', '🤔'];
 
   return (
     <Collapsible open={!isCollapsed} onOpenChange={setIsCollapsed}>
@@ -63,43 +78,85 @@ export function ReplyCard({ comment, level = 0 }: ReplyCardProps) {
           <CollapsibleContent>
             <p className="text-muted-foreground mt-1 text-sm">{comment.content}</p>
             <div className="mt-2 flex items-center gap-1 text-muted-foreground">
-            <TooltipProvider>
+              <TooltipProvider>
+                {/* Voting */}
                 <div className="flex items-center gap-0.5 rounded-full bg-muted p-0.5">
-                <Tooltip>
+                  <Tooltip>
                     <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full">
+                      <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full">
                         <ArrowUp className="h-4 w-4" />
-                    </Button>
+                      </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
-                    <p>Upvote</p>
-                    </TooltipContent>
-                </Tooltip>
-                <span className="text-xs font-semibold min-w-[12px] text-center">{comment.votes}</span>
-                <Tooltip>
+                    <TooltipContent><p>Upvote</p></TooltipContent>
+                  </Tooltip>
+                  <span className="text-xs font-semibold min-w-[12px] text-center">{comment.votes}</span>
+                  <Tooltip>
                     <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full">
+                      <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full">
                         <ArrowDown className="h-4 w-4" />
-                    </Button>
+                      </Button>
                     </TooltipTrigger>
-                    <TooltipContent>
-                    <p>Downvote</p>
-                    </TooltipContent>
-                </Tooltip>
+                    <TooltipContent><p>Downvote</p></TooltipContent>
+                  </Tooltip>
                 </div>
 
+                {/* Reply */}
                 <Tooltip>
-                <TooltipTrigger asChild>
+                  <TooltipTrigger asChild>
                     <Button variant="ghost" size="sm" className="rounded-full gap-2" onClick={toggleReply}>
-                        <MessageSquare className="h-4 w-4" />
-                        <span className="text-xs">Reply</span>
+                      <Reply className="h-4 w-4" />
+                      <span className="text-xs">Reply</span>
                     </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>Reply to comment</p>
-                </TooltipContent>
+                  </TooltipTrigger>
+                  <TooltipContent><p>Reply to comment</p></TooltipContent>
                 </Tooltip>
-            </TooltipProvider>
+
+                {/* Reactions */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                        <Smile className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="flex gap-1 p-1">
+                    {reactions.map((reaction) => (
+                      <DropdownMenuItem key={reaction} asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-lg">
+                          {reaction}
+                        </Button>
+                      </DropdownMenuItem>
+                    ))}
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-lg">+</Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 border-0">
+                        <EmojiPicker />
+                      </PopoverContent>
+                    </Popover>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Share */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                      <Share2 className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent><p>Share</p></TooltipContent>
+                </Tooltip>
+
+                {/* Flag */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-destructive/80 hover:text-destructive">
+                      <Flag className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent><p>Report</p></TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             
             {isReplying && (
