@@ -13,8 +13,10 @@ import {
   Underline,
   Quote,
   Code,
+  Image as ImageIcon,
 } from 'lucide-react'
 import { Toggle } from '@/components/ui/toggle'
+import { useCallback } from 'react'
 
 type Props = {
   editor: Editor | null
@@ -24,6 +26,24 @@ export function EditorToolbar({ editor }: Props) {
   if (!editor) {
     return null
   }
+  
+  const addImage = useCallback(() => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const dataUrl = reader.result as string;
+            editor.chain().focus().setImage({ src: dataUrl }).run();
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
+  }, [editor]);
 
   return (
     <div className="border border-input bg-transparent rounded-md p-1 flex flex-wrap items-center gap-1">
@@ -109,6 +129,13 @@ export function EditorToolbar({ editor }: Props) {
         onPressedChange={() => editor.chain().focus().toggleCodeBlock().run()}
       >
         <Code className="h-4 w-4" />
+      </Toggle>
+
+      <Toggle
+        size="sm"
+        onPressedChange={addImage}
+      >
+        <ImageIcon className="h-4 w-4" />
       </Toggle>
       
       <div className="h-6 border-l border-input mx-1" />

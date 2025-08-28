@@ -22,6 +22,8 @@ import { Label } from '@/components/ui/label'
 import { EditorToolbar } from './editor-toolbar'
 import { ScrollArea } from '../ui/scroll-area'
 import { X } from 'lucide-react'
+import Image from '@tiptap/extension-image'
+import Placeholder from '@tiptap/extension-placeholder'
 
 export function CreatePostForm() {
   const [open, setOpen] = React.useState(false)
@@ -36,8 +38,12 @@ export function CreatePostForm() {
       Underline,
       TextStyle,
       Color,
+      Image,
+      Placeholder.configure({
+        placeholder: 'Write your amazing blog post here...',
+      }),
     ],
-    content: '<p>Write your amazing blog post here...</p>',
+    content: '',
     editorProps: {
       attributes: {
         class: 'prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl focus:outline-none w-full max-w-none p-4 border rounded-md min-h-[300px]',
@@ -64,7 +70,7 @@ export function CreatePostForm() {
 
         <div className="flex-1 overflow-hidden">
           <ScrollArea className="h-full">
-            <div className="container mx-auto max-w-4xl py-8 px-4">
+            <div className="container mx-auto max-w-6xl py-8 px-4">
               <div className="space-y-6">
                 <div className="grid w-full items-center gap-1.5">
                   <Label htmlFor="title">Post Title</Label>
