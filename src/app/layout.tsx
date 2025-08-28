@@ -45,7 +45,6 @@ function AppContent({ children }: { children: React.ReactNode }) {
     )
   }
 
-  const showLayout = isAuthenticated && isSubscribed;
   const isAuthPage = pathname === '/auth';
   const isPricingPage = pathname === '/pricing';
 
