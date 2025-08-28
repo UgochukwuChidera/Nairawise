@@ -72,7 +72,7 @@ export default function BillsPage() {
                   <TableCell className="text-center">
                     <Badge
                       className={cn(
-                        'rounded-md px-3 py-1',
+                        'w-24 justify-center rounded-md px-2 py-1 text-xs',
                         getStatusClass(bill.status)
                       )}
                     >
