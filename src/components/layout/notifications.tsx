@@ -1,6 +1,6 @@
 'use client'
 
-import { Bell, Receipt, Users, Bot, TrendingDown } from 'lucide-react'
+import { Bell, Receipt, Users, TrendingUp, TrendingDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -20,7 +20,7 @@ const iconMap: { [key in Notification['type']]: React.ReactNode } = {
   bill_due: <Receipt className="h-5 w-5 text-yellow-500" />,
   budget_exceeded: <TrendingDown className="h-5 w-5 text-red-500" />,
   new_reply: <Users className="h-5 w-5 text-blue-500" />,
-  income_received: <Bot className="h-5 w-5 text-green-500" />,
+  income_received: <TrendingUp className="h-5 w-5 text-green-500" />,
 }
 
 export function Notifications() {
@@ -50,14 +50,14 @@ export function Notifications() {
           <ScrollArea className="h-full">
             <div className="space-y-4 pr-4">
               {notifications.map((notification) => (
-                <div key={notification.id} className="flex items-start gap-4 p-4 rounded-lg bg-muted/50 relative">
+                <div key={notification.id} className="flex items-start gap-4 p-4 rounded-lg bg-muted/50 relative border">
                    {!notification.isRead && (
-                    <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-primary" />
+                    <span className="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-primary" />
                   )}
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 mt-1">
                     {iconMap[notification.type]}
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="font-semibold">{notification.title}</p>
                     <p className="text-sm text-muted-foreground">{notification.message}</p>
                     <p className="text-xs text-muted-foreground mt-1">{notification.timestamp}</p>
