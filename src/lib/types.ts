@@ -95,6 +95,8 @@ export type MonthlyFinancials = {
   month: string;
   income: number;
   expenses: number;
+  previousIncome?: number;
+  previousExpenses?: number;
 }
 
 export type BudgetBreakdown = {

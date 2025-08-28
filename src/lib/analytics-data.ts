@@ -2,13 +2,13 @@
 import type { MonthlyFinancials, DailySpend, BudgetBreakdown } from "./types";
 
 export const monthlyFinancialData: MonthlyFinancials[] = [
-  { month: 'Jul', income: 18600, expenses: 14000 },
-  { month: 'Aug', income: 30500, expenses: 13980 },
-  { month: 'Sep', income: 23700, expenses: 19800 },
-  { month: 'Oct', income: 65000, expenses: 17500 },
-  { month: 'Nov', income: 48900, expenses: 29800 },
-  { month: 'Dec', income: 43900, expenses: 28000 },
-  { month: 'Jan', income: 32000, expenses: 37000 },
+  { month: 'Jul', income: 18600, expenses: 14000, previousIncome: 15000, previousExpenses: 12000 },
+  { month: 'Aug', income: 30500, expenses: 13980, previousIncome: 28000, previousExpenses: 15000 },
+  { month: 'Sep', income: 23700, expenses: 19800, previousIncome: 25000, previousExpenses: 18000 },
+  { month: 'Oct', income: 65000, expenses: 17500, previousIncome: 61000, previousExpenses: 21000 },
+  { month: 'Nov', income: 48900, expenses: 29800, previousIncome: 52000, previousExpenses: 25000 },
+  { month: 'Dec', income: 43900, expenses: 28000, previousIncome: 45000, previousExpenses: 31000 },
+  { month: 'Jan', income: 32000, expenses: 37000, previousIncome: 35000, previousExpenses: 33000 },
 ];
 
 export const budgetBreakdownData: BudgetBreakdown[] = [
