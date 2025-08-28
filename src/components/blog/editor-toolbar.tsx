@@ -152,7 +152,7 @@ export function EditorToolbar({ editor }: Props) {
             <Smile className="h-4 w-4" />
           </Toggle>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0 border-0">
+        <PopoverContent className="w-auto p-0">
           <EmojiPicker onEmojiClick={onEmojiClick} />
         </PopoverContent>
       </Popover>

@@ -86,7 +86,7 @@ export function StartDiscussionDialog() {
                             <span className="sr-only">Add an emoji</span>
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 border-0">
+                        <PopoverContent className="w-auto p-0">
                           <EmojiPicker onEmojiClick={onEmojiClick} />
                         </PopoverContent>
                       </Popover>

@@ -125,7 +125,7 @@ export function CommentCard({ comment }: CommentCardProps) {
                     <PopoverTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-lg">+</Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 border-0">
+                    <PopoverContent className="w-auto p-0">
                         <EmojiPicker />
                     </PopoverContent>
                 </Popover>
