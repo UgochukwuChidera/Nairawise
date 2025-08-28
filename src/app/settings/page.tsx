@@ -5,6 +5,7 @@ import { ThemeToggle } from '@/components/settings/theme-toggle'
 import { Separator } from '@/components/ui/separator'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 
 export default function SettingsPage() {
   return (
@@ -15,6 +16,22 @@ export default function SettingsPage() {
           Manage your account and application preferences.
         </p>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Profile</CardTitle>
+          <CardDescription>
+            This is how others will see you on the site.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+            <div className="space-y-2">
+                <Label htmlFor="bio">Bio</Label>
+                <Textarea id="bio" placeholder="Tell us a little bit about yourself" />
+            </div>
+            <Button>Update Profile</Button>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -32,6 +49,35 @@ export default function SettingsPage() {
               </p>
               <ThemeToggle />
             </div>
+          </div>
+        </CardContent>
+      </Card>
+      
+      <Card>
+        <CardHeader>
+          <CardTitle>Privacy</CardTitle>
+          <CardDescription>
+            Control how your information is shared and displayed.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between space-x-4">
+            <div className="flex flex-col space-y-1">
+              <Label>Private Account</Label>
+              <p className="text-sm text-muted-foreground">
+                Your profile and financial activity will not be visible to others.
+              </p>
+            </div>
+            <Switch id="private-account" defaultChecked />
+          </div>
+           <div className="flex items-center justify-between space-x-4">
+            <div className="flex flex-col space-y-1">
+              <Label>Show Monetary Values</Label>
+               <p className="text-sm text-muted-foreground">
+                Display your financial figures. Disable to hide them across the app.
+              </p>
+            </div>
+            <Switch id="show-money" defaultChecked />
           </div>
         </CardContent>
       </Card>

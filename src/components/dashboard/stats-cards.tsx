@@ -1,10 +1,41 @@
+"use client"
+
+import { useState } from 'react'
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { DollarSign, TrendingUp, TrendingDown, Wallet } from 'lucide-react'
+import { DollarSign, TrendingUp, TrendingDown, Wallet, Eye, EyeOff } from 'lucide-react'
+import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
+
+const MoneyValue = ({ value }: { value: number }) => {
+  const [isVisible, setIsVisible] = useState(true)
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible)
+  }
+
+  const formattedValue = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 2,
+  }).format(value)
+
+  return (
+    <div className="flex items-center gap-2">
+      <span className={cn("text-2xl font-bold", !isVisible && "blur-sm")}>
+        {isVisible ? formattedValue : '₦***,***.**'}
+      </span>
+      <Button variant="ghost" size="icon" onClick={toggleVisibility} className="h-8 w-8 shrink-0">
+        {isVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+      </Button>
+    </div>
+  )
+}
+
 
 export function StatCards() {
   return (
@@ -15,7 +46,7 @@ export function StatCards() {
           <TrendingUp className="h-4 w-4 text-green-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">₦65,000.00</div>
+          <MoneyValue value={65000} />
           <p className="text-xs text-muted-foreground">in the last month</p>
         </CardContent>
       </Card>
@@ -25,7 +56,7 @@ export function StatCards() {
           <TrendingDown className="h-4 w-4 text-red-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">₦17,500.00</div>
+          <MoneyValue value={17500} />
           <p className="text-xs text-muted-foreground">in the last month</p>
         </CardContent>
       </Card>
@@ -35,7 +66,7 @@ export function StatCards() {
           <Wallet className="h-4 w-4 text-blue-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">₦47,500.00</div>
+          <MoneyValue value={47500} />
           <p className="text-xs text-muted-foreground">
             Current balance
           </p>
@@ -47,7 +78,7 @@ export function StatCards() {
           <DollarSign className="h-4 w-4 text-yellow-500" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">₦25,000.00</div>
+           <MoneyValue value={25000} />
           <p className="text-xs text-muted-foreground">Hostel Rent on Nov 1</p>
         </CardContent>
       </Card>
