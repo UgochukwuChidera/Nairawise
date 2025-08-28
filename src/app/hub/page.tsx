@@ -9,6 +9,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { threads } from '@/lib/placeholder-data'
 import { MessageSquare } from 'lucide-react'
+import Link from 'next/link'
 
 export default function HubPage() {
   return (
@@ -19,15 +20,19 @@ export default function HubPage() {
       </div>
       <div className="space-y-4">
         {threads.map((thread) => (
-          <Card key={thread.id}>
+          <Card key={thread.id} className="hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle className="text-lg">{thread.title}</CardTitle>
+              <CardTitle className="text-lg">
+                <Link href={`/hub/${thread.id}`} className="hover:underline">
+                    {thread.title}
+                </Link>
+              </CardTitle>
               <CardDescription>
                 Posted by {thread.author} • {thread.timestamp}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">{thread.content}</p>
+              <p className="text-sm text-muted-foreground line-clamp-2">{thread.content}</p>
             </CardContent>
             <CardFooter>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">

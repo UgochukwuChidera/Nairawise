@@ -31,6 +31,16 @@ export type Post = {
   imageUrl: string;
 };
 
+export type ThreadComment = {
+  id: string;
+  author: string;
+  avatarUrl: string;
+  timestamp: string;
+  content: string;
+  votes: number;
+  replies?: ThreadComment[];
+}
+
 export type Thread = {
   id: string;
   title: string;
@@ -38,6 +48,7 @@ export type Thread = {
   timestamp: string;
   replies: number;
   content: string;
+  comments?: ThreadComment[];
 };
 
 export type LegendsWithRender = {

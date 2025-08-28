@@ -63,7 +63,50 @@ export const posts: Post[] = [
 ];
 
 export const threads: Thread[] = [
-    { id: '1', title: 'How do you save on food costs in Lagos?', author: 'user_tola', timestamp: '2 days ago', replies: 12, content: "Seriously, food is so expensive now. I'm trying to cut down my food budget. What are your best tips for eating cheap but healthy in Lagos?" },
+    { 
+      id: '1', 
+      title: 'How do you save on food costs in Lagos?', 
+      author: 'user_tola', 
+      timestamp: '2 days ago', 
+      replies: 12, 
+      content: "Seriously, food is so expensive now. I'm trying to cut down my food budget. What are your best tips for eating cheap but healthy in Lagos?",
+      comments: [
+        {
+          id: 'c1-1',
+          author: 'user_chioma',
+          avatarUrl: 'https://picsum.photos/50/50',
+          timestamp: '2 days ago',
+          content: "I started buying in bulk from markets like Mile 12. It's cheaper in the long run if you can store it.",
+          votes: 15,
+          replies: [
+            {
+              id: 'c1-1-1',
+              author: 'user_tola',
+              avatarUrl: 'https://picsum.photos/50/50',
+              timestamp: '1 day ago',
+              content: "That's a good point. Storage is my main issue in the hostel though.",
+              votes: 3,
+            },
+            {
+              id: 'c1-1-2',
+              author: 'user_bola',
+              avatarUrl: 'https://picsum.photos/50/50',
+              timestamp: '1 day ago',
+              content: "You can partner with a friend or two to buy and share. That way you finish the foodstuff before it spoils.",
+              votes: 8,
+            }
+          ]
+        },
+        {
+          id: 'c1-2',
+          author: 'user_kunle',
+          avatarUrl: 'https://picsum.photos/50/50',
+          timestamp: '1 day ago',
+          content: "Learn to cook soups that can last a week. Egusi, Ogbono etc. Saves you from buying food outside daily.",
+          votes: 12,
+        }
+      ]
+    },
     { id: '2', title: 'Best student bank account with low fees?', author: 'user_ifeanyi', timestamp: '5 days ago', replies: 8, content: "Which bank is the best for students in Nigeria? I'm looking for one with zero or very low maintenance fees and a good mobile app." },
     { id: '3', title: 'Is investing in crypto a good idea for a student?', author: 'user_binta', timestamp: '1 week ago', replies: 25, content: "I have some extra cash (around 50k) and I'm thinking of putting it in crypto. Is it too risky? What are safer investment options?" },
 ];
