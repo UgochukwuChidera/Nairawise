@@ -1,3 +1,4 @@
+
 import type { Transaction, Budget, Bill, Post, Thread, Notification } from './types';
 
 export const transactions: Transaction[] = [
@@ -30,8 +31,9 @@ export const posts: Post[] = [
     title: 'Budgeting 101 for Nigerian Students',
     description: 'Learn the basics of creating a budget that works for your student lifestyle.',
     author: 'Chiamaka Nwosu',
-    date: 'October 1, 2023',
+    date: '2023-10-01',
     imageUrl: 'https://picsum.photos/600/400',
+    views: 1200,
     content: `
       <p>Creating a budget is the first step towards financial freedom. As a student in Nigeria, managing your finances can be tricky with rising costs. Here’s a simple guide to get you started:</p>
       <h3 class="font-bold mt-4 mb-2">1. Track Your Income</h3>
@@ -47,8 +49,9 @@ export const posts: Post[] = [
     title: 'Top 5 Side Hustles for Nigerian Students',
     description: 'Boost your income with these flexible side hustles you can do while studying.',
     author: 'Adekunle Adebayo',
-    date: 'September 25, 2023',
+    date: '2023-09-25',
     imageUrl: 'https://picsum.photos/600/400',
+    views: 2500,
     content: `
       <p>Earning extra cash as a student can make a huge difference. Here are five side hustles you can start today:</p>
       <ol class="list-decimal list-inside space-y-2 mt-2">
@@ -67,15 +70,16 @@ export const threads: Thread[] = [
       id: '1', 
       title: 'How do you save on food costs in Lagos?', 
       author: 'user_tola', 
-      timestamp: '2 days ago', 
+      timestamp: '2023-10-18T10:00:00Z', 
       replies: 12, 
+      views: 560,
       content: "Seriously, food is so expensive now. I'm trying to cut down my food budget. What are your best tips for eating cheap but healthy in Lagos?",
       comments: [
         {
           id: 'c1-1',
           author: 'user_chioma',
           avatarUrl: 'https://picsum.photos/50/50',
-          timestamp: '2 days ago',
+          timestamp: '2023-10-18T11:30:00Z',
           content: "I started buying in bulk from markets like Mile 12. It's cheaper in the long run if you can store it.",
           votes: 15,
           replies: [
@@ -83,7 +87,7 @@ export const threads: Thread[] = [
               id: 'c1-1-1',
               author: 'user_tola',
               avatarUrl: 'https://picsum.photos/50/50',
-              timestamp: '1 day ago',
+              timestamp: '2023-10-19T09:00:00Z',
               content: "That's a good point. Storage is my main issue in the hostel though.",
               votes: 3,
             },
@@ -91,7 +95,7 @@ export const threads: Thread[] = [
               id: 'c1-1-2',
               author: 'user_bola',
               avatarUrl: 'https://picsum.photos/50/50',
-              timestamp: '1 day ago',
+              timestamp: '2023-10-19T09:05:00Z',
               content: "You can partner with a friend or two to buy and share. That way you finish the foodstuff before it spoils.",
               votes: 8,
             }
@@ -101,14 +105,14 @@ export const threads: Thread[] = [
           id: 'c1-2',
           author: 'user_kunle',
           avatarUrl: 'https://picsum.photos/50/50',
-          timestamp: '1 day ago',
+          timestamp: '2023-10-19T14:00:00Z',
           content: "Learn to cook soups that can last a week. Egusi, Ogbono etc. Saves you from buying food outside daily.",
           votes: 12,
         }
       ]
     },
-    { id: '2', title: 'Best student bank account with low fees?', author: 'user_ifeanyi', timestamp: '5 days ago', replies: 8, content: "Which bank is the best for students in Nigeria? I'm looking for one with zero or very low maintenance fees and a good mobile app." },
-    { id: '3', title: 'Is investing in crypto a good idea for a student?', author: 'user_binta', timestamp: '1 week ago', replies: 25, content: "I have some extra cash (around 50k) and I'm thinking of putting it in crypto. Is it too risky? What are safer investment options?" },
+    { id: '2', title: 'Best student bank account with low fees?', author: 'user_ifeanyi', timestamp: '2023-10-15T12:00:00Z', replies: 8, views: 820, content: "Which bank is the best for students in Nigeria? I'm looking for one with zero or very low maintenance fees and a good mobile app." },
+    { id: '3', title: 'Is investing in crypto a good idea for a student?', author: 'user_binta', timestamp: '2023-10-12T15:30:00Z', replies: 25, views: 1500, content: "I have some extra cash (around 50k) and I'm thinking of putting it in crypto. Is it too risky? What are safer investment options?" },
 ];
 
 export const notifications: Notification[] = [

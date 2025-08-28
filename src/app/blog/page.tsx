@@ -1,3 +1,7 @@
+
+'use client'
+
+import * as React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -8,17 +12,44 @@ import {
   CardTitle,
   CardFooter,
 } from '@/components/ui/card'
-import { posts } from '@/lib/placeholder-data'
+import { posts as initialPosts } from '@/lib/placeholder-data'
 import { CreatePostForm } from '@/components/blog/create-post-form'
+import { FilterToolbar, type SortOption } from '@/components/filter-toolbar'
 
 export default function BlogPage() {
+  const [posts, setPosts] = React.useState(initialPosts);
+  
+  const handleSort = (sortOption: SortOption) => {
+    const sortedPosts = [...initialPosts].sort((a, b) => {
+      switch (sortOption) {
+        case 'newest':
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        case 'oldest':
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        case 'popular':
+          return (b.views ?? 0) - (a.views ?? 0);
+        default:
+          return 0;
+      }
+    });
+    setPosts(sortedPosts);
+  }
+
   return (
     <div>
-        <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <div>
             <h1 className="text-3xl font-bold tracking-tight">Finance Blog</h1>
+            <p className="text-muted-foreground mt-2">Insights and tips to help you manage your finances.</p>
+        </div>
+        <div className="flex items-center gap-2">
             <CreatePostForm />
         </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      </div>
+
+      <FilterToolbar onSortChange={handleSort} />
+
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-6">
         {posts.map((post) => (
           <Link href={`/blog/${post.slug}`} key={post.slug}>
             <Card className="overflow-hidden h-full flex flex-col hover:shadow-lg transition-shadow">

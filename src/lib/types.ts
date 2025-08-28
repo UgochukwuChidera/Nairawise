@@ -1,3 +1,4 @@
+
 export type Transaction = {
   id: string;
   description: string;
@@ -29,6 +30,7 @@ export type Post = {
   date: string;
   content: string;
   imageUrl: string;
+  views?: number;
 };
 
 export type ThreadComment = {
@@ -48,6 +50,7 @@ export type Thread = {
   timestamp: string;
   replies: number;
   content: string;
+  views?: number;
   comments?: ThreadComment[];
 };
 

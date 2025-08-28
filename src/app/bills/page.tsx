@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from 'react'
@@ -33,6 +34,8 @@ export default function BillsPage() {
   const [statusFilter, setStatusFilter] = React.useState<string[]>([])
   const [minAmount, setMinAmount] = React.useState('')
   const [maxAmount, setMaxAmount] = React.useState('')
+  const [sortOrder, setSortOrder] = React.useState<'newest' | 'oldest'>('newest');
+
 
   const getStatusClass = (status: 'Paid' | 'Pending' | 'Overdue') => {
     switch (status) {
@@ -55,7 +58,7 @@ export default function BillsPage() {
   }
 
   const filteredBills = React.useMemo(() => {
-    return bills.filter((bill) => {
+    const filtered = bills.filter((bill) => {
       // Name filter
       if (nameFilter && !bill.name.toLowerCase().includes(nameFilter.toLowerCase())) {
         return false
@@ -81,7 +84,19 @@ export default function BillsPage() {
       }
       return true
     })
-  }, [nameFilter, statusFilter, dateRange, minAmount, maxAmount])
+
+    // Sorting
+    return filtered.sort((a, b) => {
+        const dateA = new Date(a.dueDate).getTime();
+        const dateB = new Date(b.dueDate).getTime();
+        if (sortOrder === 'newest') {
+            return dateB - dateA;
+        } else {
+            return dateA - dateB;
+        }
+    });
+
+  }, [nameFilter, statusFilter, dateRange, minAmount, maxAmount, sortOrder])
 
   return (
     <div className="flex flex-1 flex-col gap-6 md:gap-8">
@@ -108,11 +123,13 @@ export default function BillsPage() {
         setMinAmount={setMinAmount}
         maxAmount={maxAmount}
         setMaxAmount={setMaxAmount}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
       />
 
       <Card>
         <CardHeader>
-          <CardTitle>Upcoming Bills</CardTitle>
+          <CardTitle>Bill History</CardTitle>
           <CardDescription>
             Manage your upcoming and past due bills.
           </CardDescription>
