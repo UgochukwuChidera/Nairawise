@@ -13,14 +13,16 @@ export function BudgetSettings() {
     return (
         <Card>
             <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex items-start justify-between">
                     <div>
                         <CardTitle>Budget Categories</CardTitle>
                         <CardDescription>
                         Manage your financial categories and their allocated amounts.
                         </CardDescription>
                     </div>
-                    <AddBudgetDialog />
+                    <div className="ml-4 shrink-0">
+                        <AddBudgetDialog />
+                    </div>
                 </div>
             </CardHeader>
             <CardContent>
