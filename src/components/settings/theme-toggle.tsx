@@ -1,42 +1,53 @@
-"use client"
+"use client";
 
-import { useTheme } from "next-themes"
-import { Button } from "@/components/ui/button"
-import { Sun, Moon, Laptop } from "lucide-react"
-import { cn } from "@/lib/utils"
+import React, { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { Sun, Moon, Monitor } from "lucide-react";
+
+type ThemeValue = "light" | "dark" | "system";
+
+const OPTIONS: { value: ThemeValue; label: string; icon: React.ReactElement }[] = [
+  { value: "light",  label: "Light",  icon: <Sun  className="h-4 w-4" /> },
+  { value: "dark",   label: "Dark",   icon: <Moon className="h-4 w-4" /> },
+  { value: "system", label: "System", icon: <Monitor className="h-4 w-4" /> },
+];
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
 
   return (
-    <div className="flex w-full items-center gap-2 rounded-lg bg-muted p-1 md:w-auto">
-      <Button
-        variant={theme === "light" ? "secondary" : "ghost"}
-        size="sm"
-        onClick={() => setTheme("light")}
-        className={cn("w-full justify-center gap-2", theme === "light" && "shadow-sm")}
-      >
-        <Sun className="h-4 w-4" />
-        Light
-      </Button>
-      <Button
-        variant={theme === "dark" ? "secondary" : "ghost"}
-        size="sm"
-        onClick={() => setTheme("dark")}
-        className={cn("w-full justify-center gap-2", theme === "dark" && "shadow-sm")}
-      >
-        <Moon className="h-4 w-4" />
-        Dark
-      </Button>
-      <Button
-        variant={theme === "system" ? "secondary" : "ghost"}
-        size="sm"
-        onClick={() => setTheme("system")}
-        className={cn("w-full justify-center gap-2", theme === "system" && "shadow-sm")}
-      >
-        <Laptop className="h-4 w-4" />
-        System
-      </Button>
+    <div className="inline-flex w-full rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
+      {OPTIONS.map((opt, i) => {
+        const active = theme === opt.value;
+
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            aria-pressed={active}
+            aria-label={`${opt.label} theme`}
+            onClick={() => setTheme(opt.value)}
+            className={[
+              "flex-1 flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500",
+              // visual separator between segments
+              i > 0 && "border-l border-gray-200 dark:border-gray-600",
+              active
+                ? "bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-white"
+                : "bg-white text-gray-700 dark:bg-transparent dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            {opt.icon}
+            <span className="hidden sm:inline">{opt.label}</span>
+          </button>
+        );
+      })}
     </div>
-  )
+  );
 }
