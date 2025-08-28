@@ -9,11 +9,15 @@ import {
   CardFooter,
 } from '@/components/ui/card'
 import { posts } from '@/lib/placeholder-data'
+import { CreatePostForm } from '@/components/blog/create-post-form'
 
 export default function BlogPage() {
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Finance Blog</h1>
+        <div className="flex items-center justify-between mb-6">
+            <h1 className="text-3xl font-bold tracking-tight">Finance Blog</h1>
+            <CreatePostForm />
+        </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <Link href={`/blog/${post.slug}`} key={post.slug}>
