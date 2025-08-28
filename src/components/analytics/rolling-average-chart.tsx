@@ -1,85 +1,71 @@
 
-"use client"
+"use client";
 
-import * as React from 'react'
-import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts'
-import { ChartTooltipContent, ChartContainer } from '@/components/ui/chart'
-import { dailySpendData, calculateRollingAverage } from '@/lib/analytics-data'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 
-export function RollingAverageChart() {
-  const [windowSize, setWindowSize] = React.useState(10)
+export type RollingAverageChartProps = {
+  data: { day: number; spend: number; average: number | null }[];
+};
 
-  const chartData = React.useMemo(() => {
-    const averages = calculateRollingAverage(dailySpendData, windowSize)
-    return dailySpendData.map((item, index) => ({
-      ...item,
-      average: averages[index],
-    }))
-  }, [windowSize])
-
+export function RollingAverageChart({ data }: RollingAverageChartProps) {
   return (
-    <>
-      <div className="flex justify-end mb-4">
-        <Select value={String(windowSize)} onValueChange={(val) => setWindowSize(Number(val))}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select window" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="5">5-Day Window</SelectItem>
-            <SelectItem value="10">10-Day Window</SelectItem>
-            <SelectItem value="20">20-Day Window</SelectItem>
-            <SelectItem value="50">50-Day Window</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <ChartContainer config={{}} className="w-full" style={{ height: '350px' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="day"
-              stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `Day ${value}`}
-            />
-            <YAxis
-              stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-              tickFormatter={(value) => `₦${value}`}
-            />
-            <Tooltip
-              content={
-                <ChartTooltipContent
-                  formatter={(value, name) => [`₦${(value as number).toLocaleString()}`, name.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())]}
+    <ChartContainer config={{}} className="w-full" style={{ height: '300px' }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart 
+            data={data}
+            margin={{
+                top: 5,
+                right: 20,
+                left: -10,
+                bottom: 5,
+            }}
+        >
+          <CartesianGrid vertical={false} />
+          <XAxis 
+            dataKey="day"
+            tickFormatter={(value) => `Day ${value}`}
+            stroke="hsl(var(--muted-foreground))"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            stroke="hsl(var(--muted-foreground))"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={(value) => `₦${value}`}
+          />
+          <Tooltip 
+            content={
+                <ChartTooltipContent 
+                    formatter={(value, name) => [
+                        `₦${(value as number).toLocaleString()}`, 
+                        name === 'spend' ? 'Daily Spend' : 'Rolling Average'
+                    ]}
                 />
-              }
-            />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="spend"
-              stroke="hsl(var(--chart-expense))"
-              strokeWidth={2}
-              dot={false}
-              name="Daily Spend"
-            />
-            <Line
-              type="monotone"
-              dataKey="average"
-              stroke="hsl(var(--chart-income))"
-              strokeWidth={2}
-              strokeDasharray="5 5"
-              dot={false}
-              name={`${windowSize}-Day Rolling Avg`}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </ChartContainer>
-    </>
-  )
+            }
+          />
+          <Legend />
+          <Line 
+            type="monotone" 
+            dataKey="spend" 
+            stroke="hsl(var(--chart-expense) / 0.5)" 
+            strokeWidth={2}
+            dot={false}
+            name="Daily Spend"
+           />
+           <Line 
+            type="monotone" 
+            dataKey="average" 
+            stroke="hsl(var(--primary))" 
+            strokeWidth={3}
+            dot={false}
+            name="Rolling Average"
+           />
+        </LineChart>
+      </ResponsiveContainer>
+    </ChartContainer>
+  );
 }

@@ -9,35 +9,35 @@ import { RefreshCw } from 'lucide-react'
 import { useSettings } from '@/context/settings-context'
 import { cn } from '@/lib/utils'
 
-function predictNext(series: number[], window = 3): number {
+function predictNext(series: number[], window = 7): number | null {
   if (series.length < window) {
-    return series.length > 0 ? series[series.length - 1] : 0
+    return null;
   }
 
-  const n = series.length
+  const n = series.length;
 
   // Step 1: Compute rolling average (RA_t)
-  const recent = series.slice(n - window)
-  const RA_t = recent.reduce((a, b) => a + b, 0) / window
+  const recent = series.slice(n - window);
+  const RA_t = recent.reduce((a, b) => a + b, 0) / window;
 
   // Step 2: Previous rolling average (RA_{t-1})
-  const prevRecent = series.slice(n - window - 1, n - 1)
-  const RA_prev = prevRecent.reduce((a, b) => a + b, 0) / window
-  const deltaRA = RA_t - RA_prev
+  const prevRecent = series.slice(n - window - 1, n - 1);
+  const RA_prev = prevRecent.reduce((a, b) => a + b, 0) / window;
+  const deltaRA = RA_t - RA_prev;
 
   // Step 3: Momentum
-  const momentum = series[n - 1] - RA_t
+  const momentum = series[n - 1] - RA_t;
 
   // Step 4: Volatility (standard deviation)
-  const variance = recent.reduce((acc, val) => acc + Math.pow(val - RA_t, 2), 0) / window
-  const sigma = Math.sqrt(variance)
+  const variance = recent.reduce((acc, val) => acc + Math.pow(val - RA_t, 2), 0) / window;
+  const sigma = Math.sqrt(variance);
 
   // Step 5: Adaptive weights
-  const alpha = 1 / (1 + sigma)
-  const beta = 1 / (1 + (sigma / (RA_t / 10 || 1)))
+  const alpha = 1 / (1 + sigma);           // momentum weight
+  const beta = 1 / (1 + (sigma / (RA_t / 10 || 1))); // trend weight
 
   // Step 6: Final prediction
-  const prediction = RA_t + beta * deltaRA + alpha * momentum
+  const prediction = RA_t + beta * deltaRA + alpha * momentum;
 
   return Math.max(0, prediction) // Ensure prediction is not negative
 }
@@ -47,17 +47,18 @@ export function SpendPredictor() {
   const { showMonetaryValues } = useSettings()
   const [prediction, setPrediction] = React.useState<number | null>(null)
   
-  React.useEffect(() => {
+  const calculatePrediction = React.useCallback(() => {
     const spendSeries = dailySpendData.map(d => d.spend)
     const nextDayPrediction = predictNext(spendSeries, 7) // Using a 7-day window
     setPrediction(nextDayPrediction)
-  }, [])
+  }, []);
+
+  React.useEffect(() => {
+    calculatePrediction();
+  }, [calculatePrediction])
 
   const handleRecalculate = () => {
-    const spendSeries = dailySpendData.map(d => d.spend)
-    const newPrediction = predictNext(spendSeries, 7)
-    // Add some randomness to simulate a new calculation
-    setPrediction(newPrediction * (Math.random() * 0.1 + 0.95))
+    calculatePrediction();
   }
 
   return (
@@ -73,7 +74,7 @@ export function SpendPredictor() {
                     {showMonetaryValues ? `~₦${Math.round(prediction).toLocaleString()}` : '₦•••••'}
                 </span>
             ) : (
-                <span>Calculating...</span>
+                <span>Not enough data...</span>
             )}
         </div>
         <p className="text-sm text-muted-foreground">

@@ -42,16 +42,14 @@ const generateDailySpend = (days: number): DailySpend[] => {
 
 export const dailySpendData: DailySpend[] = generateDailySpend(90); // 90 days of data
 
-export const calculateRollingAverage = (data: DailySpend[], windowSize: number): (number | null)[] => {
-  const averages: (number | null)[] = [];
-  for (let i = 0; i < data.length; i++) {
-    if (i < windowSize - 1) {
-      averages.push(null);
-    } else {
-      const window = data.slice(i - windowSize + 1, i + 1);
-      const sum = window.reduce((acc, curr) => acc + curr.spend, 0);
-      averages.push(Math.round(sum / windowSize));
+export const calculateRollingAverage = (data: DailySpend[], windowSize: number): (DailySpend & { average: number | null })[] => {
+  return data.map((item, index) => {
+    if (index < windowSize - 1) {
+      return { ...item, average: null }
     }
-  }
-  return averages;
+    const window = data.slice(index - windowSize + 1, index + 1)
+    const sum = window.reduce((acc, curr) => acc + curr.spend, 0)
+    const avg = Math.round(sum / windowSize)
+    return { ...item, average: avg }
+  })
 };
