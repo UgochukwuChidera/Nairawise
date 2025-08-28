@@ -15,12 +15,20 @@ import { MessageSquare } from 'lucide-react'
 import Link from 'next/link'
 import { StartDiscussionDialog } from '@/components/hub/start-discussion-dialog'
 import { FilterToolbar, type SortOption } from '@/components/filter-toolbar'
+import type { Thread } from '@/lib/types'
 
 export default function HubPage() {
-    const [threads, setThreads] = React.useState(initialThreads);
+    const [threads, setThreads] = React.useState<Thread[]>(initialThreads);
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const [sortOption, setSortOption] = React.useState<SortOption>('newest');
 
-    const handleSort = (sortOption: SortOption) => {
-        const sortedThreads = [...initialThreads].sort((a, b) => {
+    React.useEffect(() => {
+        let filteredThreads = initialThreads.filter(thread =>
+            thread.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            thread.content.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        const sortedThreads = [...filteredThreads].sort((a, b) => {
             switch (sortOption) {
                 case 'newest':
                     return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
@@ -33,7 +41,7 @@ export default function HubPage() {
             }
         });
         setThreads(sortedThreads);
-    };
+    }, [searchQuery, sortOption]);
 
   return (
     <div>
@@ -45,7 +53,12 @@ export default function HubPage() {
         <StartDiscussionDialog />
       </div>
       
-      <FilterToolbar onSortChange={handleSort} />
+      <FilterToolbar 
+        onSortChange={setSortOption}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchPlaceholder="Search discussions..."
+      />
 
       <div className="space-y-4 mt-6">
         {threads.map((thread) => (

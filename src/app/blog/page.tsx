@@ -15,12 +15,21 @@ import {
 import { posts as initialPosts } from '@/lib/placeholder-data'
 import { CreatePostForm } from '@/components/blog/create-post-form'
 import { FilterToolbar, type SortOption } from '@/components/filter-toolbar'
+import type { Post } from '@/lib/types'
 
 export default function BlogPage() {
-  const [posts, setPosts] = React.useState(initialPosts);
-  
-  const handleSort = (sortOption: SortOption) => {
-    const sortedPosts = [...initialPosts].sort((a, b) => {
+  const [posts, setPosts] = React.useState<Post[]>(initialPosts);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [sortOption, setSortOption] = React.useState<SortOption>('newest');
+
+  React.useEffect(() => {
+    let filteredPosts = initialPosts.filter(post => 
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const sortedPosts = [...filteredPosts].sort((a, b) => {
       switch (sortOption) {
         case 'newest':
           return new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -33,7 +42,8 @@ export default function BlogPage() {
       }
     });
     setPosts(sortedPosts);
-  }
+  }, [searchQuery, sortOption]);
+
 
   return (
     <div>
@@ -47,7 +57,12 @@ export default function BlogPage() {
         </div>
       </div>
 
-      <FilterToolbar onSortChange={handleSort} />
+      <FilterToolbar 
+        onSortChange={setSortOption}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchPlaceholder="Search posts or authors..."
+      />
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-6">
         {posts.map((post) => (
