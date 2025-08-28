@@ -37,7 +37,7 @@ export function EditorToolbar({ editor }: Props) {
         const reader = new FileReader();
         reader.onloadend = () => {
             const dataUrl = reader.result as string;
-            editor.chain().focus().setImage({ src: dataUrl }).run();
+            editor.chain().focus().setImage({ src: dataUrl }).createParagraphNear().run();
         };
         reader.readAsDataURL(file);
       }
