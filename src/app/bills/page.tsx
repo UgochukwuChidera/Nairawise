@@ -17,8 +17,22 @@ import { Badge } from '@/components/ui/badge'
 import { bills } from '@/lib/placeholder-data'
 import { AddBillDialog } from '@/components/bills/add-bill-dialog'
 import { BillActions } from '@/components/bills/bill-actions'
+import { cn } from '@/lib/utils'
 
 export default function BillsPage() {
+  const getStatusClass = (status: 'Paid' | 'Pending' | 'Overdue') => {
+    switch (status) {
+      case 'Paid':
+        return 'bg-gradient-to-r from-green-400 to-green-600 text-white'
+      case 'Pending':
+        return 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white'
+      case 'Overdue':
+        return 'bg-gradient-to-r from-red-400 to-red-600 text-white'
+      default:
+        return 'bg-secondary text-secondary-foreground'
+    }
+  }
+
   return (
     <div className="flex flex-1 flex-col gap-6 md:gap-8">
        <div className="flex items-start justify-between">
@@ -57,13 +71,10 @@ export default function BillsPage() {
                   <TableCell>{bill.dueDate}</TableCell>
                   <TableCell className="text-center">
                     <Badge
-                      variant={
-                        bill.status === 'Paid'
-                          ? 'default'
-                          : bill.status === 'Overdue'
-                          ? 'destructive'
-                          : 'secondary'
-                      }
+                      className={cn(
+                        'rounded-md px-3 py-1',
+                        getStatusClass(bill.status)
+                      )}
                     >
                       {bill.status}
                     </Badge>
