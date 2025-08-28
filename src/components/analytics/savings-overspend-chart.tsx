@@ -36,12 +36,17 @@ export function SavingsOverspendChart() {
             tickFormatter={(value) => `₦${Number(value) / 1000}k`}
           />
           <Tooltip
-            content={
-                <ChartTooltipContent
-                    formatter={(value, name) => [`₦${(value as number).toLocaleString()}`, name]}
-                    payload={savingsData.filter(p => p.savings > 0 || p.overspend > 0)}
-              />
-            }
+            content={({ active, payload, label }) => {
+                const finalPayload = payload?.filter((p) => p.value !== 0);
+                return (
+                    <ChartTooltipContent
+                        active={active}
+                        payload={finalPayload}
+                        label={label}
+                        formatter={(value, name) => [`₦${(value as number).toLocaleString()}`, name]}
+                    />
+                );
+            }}
           />
           <Legend />
           <defs>

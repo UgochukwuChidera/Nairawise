@@ -35,14 +35,12 @@ export function IncomeExpenseChart() {
           <Legend />
           <Bar
             dataKey="income"
-            stackId="a"
             fill="hsl(var(--chart-income))"
-            radius={[0, 0, 4, 4]}
+            radius={[4, 4, 0, 0]}
             name="Income"
           />
           <Bar
             dataKey="expenses"
-            stackId="a"
             fill="hsl(var(--chart-expense))"
             radius={[4, 4, 0, 0]}
             name="Expenses"
