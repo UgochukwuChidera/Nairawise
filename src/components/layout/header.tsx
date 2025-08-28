@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useState } from 'react'
@@ -17,9 +18,11 @@ import { Logo } from '@/components/logo'
 import { NavLink } from './nav-link'
 import { useSettings } from '@/context/settings-context'
 import { Notifications } from './notifications'
+import { useAuth } from '@/context/auth-context'
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { isAuthenticated, logout } = useAuth()
 
   const navItems = [
     { href: '/', label: 'Dashboard' },
@@ -70,7 +73,7 @@ export function Header() {
               </DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -135,7 +138,7 @@ export function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
