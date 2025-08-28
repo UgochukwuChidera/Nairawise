@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState } from 'react'
+import * as React from 'react'
 import {
   Card,
   CardContent,
@@ -11,13 +11,10 @@ import {
 import { DollarSign, TrendingUp, TrendingDown, Wallet, Eye, EyeOff } from 'lucide-react'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
+import { useSettings } from '@/context/settings-context'
 
 const MoneyValue = ({ value }: { value: number }) => {
-  const [isVisible, setIsVisible] = useState(true)
-
-  const toggleVisibility = () => {
-    setIsVisible(!isVisible)
-  }
+  const { showMonetaryValues, toggleMonetaryValues } = useSettings()
 
   const formattedValue = new Intl.NumberFormat('en-NG', {
     style: 'currency',
@@ -30,13 +27,13 @@ const MoneyValue = ({ value }: { value: number }) => {
       <span
         className={cn(
           "text-2xl font-bold transition-all duration-300",
-          !isVisible && "blur-md"
+          !showMonetaryValues && "blur-md"
         )}
       >
-        {isVisible ? formattedValue : '₦••••••••'}
+        {showMonetaryValues ? formattedValue : '₦••••••••'}
       </span>
-      <Button variant="ghost" size="icon" onClick={toggleVisibility} className="h-8 w-8 shrink-0">
-        {isVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+      <Button variant="ghost" size="icon" onClick={toggleMonetaryValues} className="h-8 w-8 shrink-0">
+        {showMonetaryValues ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
       </Button>
     </div>
   )

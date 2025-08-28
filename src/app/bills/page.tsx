@@ -24,8 +24,10 @@ import { BillActions } from '@/components/bills/bill-actions'
 import { cn } from '@/lib/utils'
 import { BillFilters } from '@/components/bills/bill-filters'
 import type { Bill } from '@/lib/types'
+import { useSettings } from '@/context/settings-context'
 
 export default function BillsPage() {
+  const { showMonetaryValues } = useSettings()
   const [nameFilter, setNameFilter] = React.useState('')
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>()
   const [statusFilter, setStatusFilter] = React.useState<string[]>([])
@@ -43,6 +45,13 @@ export default function BillsPage() {
       default:
         return 'bg-secondary text-secondary-foreground'
     }
+  }
+
+  const renderAmount = (amount: number) => {
+    if (!showMonetaryValues) {
+        return <span className="blur-sm">₦•••••</span>
+    }
+    return `₦${amount.toLocaleString()}`
   }
 
   const filteredBills = React.useMemo(() => {
@@ -135,7 +144,7 @@ export default function BillsPage() {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    ₦{bill.amount.toLocaleString()}
+                    {renderAmount(bill.amount)}
                   </TableCell>
                   <TableCell className="text-right">
                     <BillActions bill={bill} />

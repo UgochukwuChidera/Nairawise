@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster'
 import { Header } from '@/components/layout/header'
 import { ThemeProvider } from '@/components/theme-provider'
 import { BudgetProvider } from '@/context/budget-context'
+import { SettingsProvider } from '@/context/settings-context'
 import { useEffect, useState } from 'react'
 
 export default function RootLayout({
@@ -37,15 +38,17 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
-          <BudgetProvider>
-            <div className="flex min-h-screen w-full flex-col">
-              {isClient ? <Header /> : null}
-              <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20">
-                {children}
-              </main>
-            </div>
-            <Toaster />
-          </BudgetProvider>
+          <SettingsProvider>
+            <BudgetProvider>
+              <div className="flex min-h-screen w-full flex-col">
+                {isClient ? <Header /> : null}
+                <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted/20">
+                  {children}
+                </main>
+              </div>
+              <Toaster />
+            </BudgetProvider>
+          </SettingsProvider>
         </ThemeProvider>
       </body>
     </html>

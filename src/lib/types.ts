@@ -60,3 +60,8 @@ export type BudgetContextType = {
   updateBudget: (id: string, updatedBudget: Partial<Omit<Budget, 'id' | 'spent'>>) => void;
   deleteBudget: (id: string) => void;
 };
+
+export type SettingsContextType = {
+  showMonetaryValues: boolean;
+  toggleMonetaryValues: () => void;
+};

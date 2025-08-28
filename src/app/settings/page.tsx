@@ -8,8 +8,11 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { BudgetSettings } from '@/components/settings/budget-settings'
+import { useSettings } from '@/context/settings-context'
 
 export default function SettingsPage() {
+  const { showMonetaryValues, toggleMonetaryValues } = useSettings();
+
   return (
     <div className="flex flex-1 flex-col gap-6 md:gap-8 max-w-4xl mx-auto">
       <div>
@@ -81,7 +84,11 @@ export default function SettingsPage() {
                 Display your financial figures. Disable to hide them across the app.
               </p>
             </div>
-            <Switch id="show-money" defaultChecked />
+            <Switch 
+              id="show-money" 
+              checked={showMonetaryValues}
+              onCheckedChange={toggleMonetaryValues}
+            />
           </div>
         </CardContent>
       </Card>

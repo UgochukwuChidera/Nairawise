@@ -11,6 +11,7 @@ import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/utils'
 import { BudgetCardActions } from '@/components/budget/budget-card-actions'
 import { useBudget } from '@/context/budget-context'
+import { useSettings } from '@/context/settings-context'
 import { AddBudgetDialog } from '@/components/budget/add-budget-dialog'
 
 function getProgressColor(percentage: number) {
@@ -21,6 +22,14 @@ function getProgressColor(percentage: number) {
 
 export default function BudgetPage() {
   const { budgets } = useBudget();
+  const { showMonetaryValues } = useSettings();
+
+  const renderAmount = (amount: number) => {
+    if (!showMonetaryValues) {
+      return <span className="blur-sm">₦•••••</span>
+    }
+    return `₦${amount.toLocaleString()}`
+  }
 
   return (
     <div className="flex flex-1 flex-col gap-6 md:gap-8">
@@ -47,11 +56,11 @@ export default function BudgetPage() {
                   <CardDescription>
                     {isOverBudget ? (
                      <span className="text-destructive font-medium">
-                        ₦{(budget.spent - budget.allocated).toLocaleString()} over budget
+                        {renderAmount(budget.spent - budget.allocated)} over budget
                      </span>
                     ) : (
                       <span>
-                        ₦{(budget.allocated - budget.spent).toLocaleString()} left
+                        {renderAmount(budget.allocated - budget.spent)} left
                       </span>
                     )}
                   </CardDescription>
@@ -65,7 +74,7 @@ export default function BudgetPage() {
                   indicatorClassName={cn(getProgressColor(percentage))}
                 />
                 <div className="text-sm text-muted-foreground mt-2">
-                  Spent ₦{budget.spent.toLocaleString()} of ₦{budget.allocated.toLocaleString()}
+                  Spent {renderAmount(budget.spent)} of {renderAmount(budget.allocated)}
                 </div>
               </CardContent>
             </Card>

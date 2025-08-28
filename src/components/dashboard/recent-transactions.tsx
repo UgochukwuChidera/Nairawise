@@ -1,3 +1,5 @@
+'use client'
+
 import { ArrowUpRight } from 'lucide-react'
 import {
   Card,
@@ -17,9 +19,19 @@ import {
 import { transactions } from '@/lib/placeholder-data'
 import { cn } from '@/lib/utils'
 import { TransactionsDialog } from './transactions-dialog'
+import { useSettings } from '@/context/settings-context'
 
 
 export function RecentTransactions() {
+  const { showMonetaryValues } = useSettings()
+
+  const renderAmount = (amount: number, type: 'income' | 'expense') => {
+    if (!showMonetaryValues) {
+        return <span className="blur-sm">+/- ₦•••••</span>
+    }
+    return `${type === 'income' ? '+' : '-'}₦${amount.toLocaleString()}`
+  }
+
   return (
     <Card className="shadow-lg">
       <CardHeader className="flex flex-row items-center">
@@ -53,9 +65,9 @@ export function RecentTransactions() {
                 </TableCell>
                 <TableCell className={cn(
                   "text-right font-bold",
-                  transaction.type === 'income' ? 'text-green-500' : 'text-red-500'
+                  showMonetaryValues && (transaction.type === 'income' ? 'text-green-500' : 'text-red-500')
                 )}>
-                  {transaction.type === 'income' ? '+' : '-'}₦{transaction.amount.toLocaleString()}
+                  {renderAmount(transaction.amount, transaction.type)}
                 </TableCell>
               </TableRow>
             ))}
