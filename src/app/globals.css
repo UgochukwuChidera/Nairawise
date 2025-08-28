@@ -64,6 +64,29 @@
     @apply bg-background text-foreground;
     background-image: linear-gradient(to bottom right, hsl(var(--background)), hsl(var(--muted)));
   }
+  
+  /* Custom Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary));
+    border-radius: 10px;
+    border: 2px solid hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--primary) / 0.8);
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary));
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+     background-color: hsl(var(--primary) / 0.8);
+  }
 }
 
 @layer utilities {
