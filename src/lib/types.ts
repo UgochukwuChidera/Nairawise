@@ -1,4 +1,5 @@
 
+
 export type Transaction = {
   id: string;
   description: string;
@@ -88,3 +89,20 @@ export type SettingsContextType = {
   showMonetaryValues: boolean;
   toggleMonetaryValues: () => void;
 };
+
+// Types for Analytics Dashboard
+export type MonthlyFinancials = {
+  month: string;
+  income: number;
+  expenses: number;
+}
+
+export type BudgetBreakdown = {
+  category: string;
+  spent: number;
+}
+
+export type DailySpend = {
+  day: number;
+  spend: number;
+}
