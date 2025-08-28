@@ -8,34 +8,22 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { DollarSign, TrendingUp, TrendingDown, Wallet, Eye, EyeOff } from 'lucide-react'
-import { Button } from '../ui/button'
+import { DollarSign, TrendingUp, TrendingDown, Wallet } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useSettings } from '@/context/settings-context'
 
 const MoneyValue = ({ value }: { value: number }) => {
-  const { showMonetaryValues, toggleMonetaryValues } = useSettings()
-
-  const formattedValue = new Intl.NumberFormat('en-NG', {
-    style: 'currency',
-    currency: 'NGN',
-    minimumFractionDigits: 2,
-  }).format(value)
+  const { showMonetaryValues } = useSettings()
 
   return (
-    <div className="flex items-center gap-2">
-      <span
-        className={cn(
-          "text-2xl font-bold transition-all duration-300",
-          !showMonetaryValues && "blur-md"
-        )}
-      >
-        {showMonetaryValues ? formattedValue : '₦••••••••'}
-      </span>
-      <Button variant="ghost" size="icon" onClick={toggleMonetaryValues} className="h-8 w-8 shrink-0">
-        {showMonetaryValues ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-      </Button>
-    </div>
+    <span
+      className={cn(
+        "text-2xl font-bold transition-all duration-300",
+        !showMonetaryValues && "blur-sm"
+      )}
+    >
+      {showMonetaryValues ? `₦${value.toLocaleString()}`: '₦•••••'}
+    </span>
   )
 }
 

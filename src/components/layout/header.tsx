@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, CircleUser } from '@/components/icons'
+import { Menu, CircleUser, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -15,9 +15,11 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet'
 import { Logo } from '@/components/logo'
 import { NavLink } from './nav-link'
+import { useSettings } from '@/context/settings-context'
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { showMonetaryValues, toggleMonetaryValues } = useSettings()
 
   const navItems = [
     { href: '/', label: 'Dashboard' },
@@ -51,7 +53,11 @@ export function Header() {
             </NavLink>
           ))}
         </nav>
-        <div className="flex w-1/3 justify-end">
+        <div className="flex w-1/3 items-center justify-end gap-2">
+          <Button variant="ghost" size="icon" onClick={toggleMonetaryValues} className="rounded-full">
+            {showMonetaryValues ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            <span className="sr-only">Toggle monetary values</span>
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
@@ -115,7 +121,11 @@ export function Header() {
             </Link>
         </div>
 
-        <div className="flex items-center justify-end w-1/3">
+        <div className="flex items-center justify-end w-1/3 gap-2">
+            <Button variant="ghost" size="icon" onClick={toggleMonetaryValues} className="rounded-full">
+              {showMonetaryValues ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              <span className="sr-only">Toggle monetary values</span>
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="icon" className="rounded-full">
