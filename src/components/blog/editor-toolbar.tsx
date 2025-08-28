@@ -14,9 +14,13 @@ import {
   Quote,
   Code,
   Image as ImageIcon,
+  Smile,
 } from 'lucide-react'
 import { Toggle } from '@/components/ui/toggle'
 import { useCallback } from 'react'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { Button } from '../ui/button'
+import EmojiPicker, { type EmojiClickData } from 'emoji-picker-react'
 
 type Props = {
   editor: Editor | null
@@ -44,6 +48,10 @@ export function EditorToolbar({ editor }: Props) {
     };
     input.click();
   }, [editor]);
+
+  const onEmojiClick = (emojiData: EmojiClickData) => {
+    editor.chain().focus().insertContent(emojiData.emoji).run()
+  }
 
   return (
     <div className="border border-input bg-transparent rounded-md p-1 flex flex-wrap items-center gap-1">
@@ -137,6 +145,17 @@ export function EditorToolbar({ editor }: Props) {
       >
         <ImageIcon className="h-4 w-4" />
       </Toggle>
+      
+      <Popover>
+        <PopoverTrigger asChild>
+          <Toggle size="sm">
+            <Smile className="h-4 w-4" />
+          </Toggle>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0 border-0">
+          <EmojiPicker onEmojiClick={onEmojiClick} />
+        </PopoverContent>
+      </Popover>
       
       <div className="h-6 border-l border-input mx-1" />
       
