@@ -104,10 +104,10 @@ export default function RootLayout({
             <SettingsProvider>
               <BudgetProvider>
                 <AppContent>{children}</AppContent>
-                <Toaster />
               </BudgetProvider>
             </SettingsProvider>
           </AuthProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
