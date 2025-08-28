@@ -16,4 +16,5 @@ export {
   MessageSquare as Reply,
   Share2,
   MoreHorizontal,
+  Bell,
 } from 'lucide-react';

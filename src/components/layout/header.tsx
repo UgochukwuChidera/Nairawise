@@ -16,6 +16,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTr
 import { Logo } from '@/components/logo'
 import { NavLink } from './nav-link'
 import { useSettings } from '@/context/settings-context'
+import { Notifications } from './notifications'
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -53,6 +54,7 @@ export function Header() {
           ))}
         </nav>
         <div className="flex w-1/3 items-center justify-end gap-2">
+          <Notifications />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
@@ -117,6 +119,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center justify-end w-1/3 gap-2">
+            <Notifications />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="icon" className="rounded-full">

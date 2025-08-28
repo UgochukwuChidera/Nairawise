@@ -51,6 +51,15 @@ export type Thread = {
   comments?: ThreadComment[];
 };
 
+export type Notification = {
+  id: string;
+  type: 'bill_due' | 'budget_exceeded' | 'new_reply' | 'income_received';
+  title: string;
+  message: string;
+  timestamp: string;
+  isRead: boolean;
+}
+
 export type LegendsWithRender = {
   payload: {
     value: string;

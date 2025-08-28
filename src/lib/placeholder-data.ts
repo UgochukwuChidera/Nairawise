@@ -1,4 +1,4 @@
-import type { Transaction, Budget, Bill, Post, Thread } from './types';
+import type { Transaction, Budget, Bill, Post, Thread, Notification } from './types';
 
 export const transactions: Transaction[] = [
   { id: '1', description: 'Monthly Allowance', amount: 50000, date: '2023-10-01', type: 'income' },
@@ -109,4 +109,39 @@ export const threads: Thread[] = [
     },
     { id: '2', title: 'Best student bank account with low fees?', author: 'user_ifeanyi', timestamp: '5 days ago', replies: 8, content: "Which bank is the best for students in Nigeria? I'm looking for one with zero or very low maintenance fees and a good mobile app." },
     { id: '3', title: 'Is investing in crypto a good idea for a student?', author: 'user_binta', timestamp: '1 week ago', replies: 25, content: "I have some extra cash (around 50k) and I'm thinking of putting it in crypto. Is it too risky? What are safer investment options?" },
+];
+
+export const notifications: Notification[] = [
+  {
+    id: '1',
+    type: 'bill_due',
+    title: 'Rent Reminder',
+    message: 'Your Hostel Rent of ₦25,000 is due in 3 days.',
+    timestamp: '2 hours ago',
+    isRead: false,
+  },
+  {
+    id: '2',
+    type: 'budget_exceeded',
+    title: 'Budget Alert',
+    message: 'You have exceeded your Entertainment budget for October.',
+    timestamp: '1 day ago',
+    isRead: false,
+  },
+  {
+    id: '3',
+    type: 'new_reply',
+    title: 'New Hub Reply',
+    message: 'user_bola replied to your comment in "How do you save on food costs..."',
+    timestamp: '1 day ago',
+    isRead: true,
+  },
+  {
+    id: '4',
+    type: 'income_received',
+    title: 'Income Received',
+    message: 'You received a payment of ₦15,000 for Freelance Work.',
+    timestamp: '3 days ago',
+    isRead: true,
+  },
 ];
