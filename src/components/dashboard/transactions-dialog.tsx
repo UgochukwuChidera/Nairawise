@@ -139,7 +139,7 @@ export function TransactionsDialog({ children }: { children: React.ReactNode }) 
         </div>
 
         <div className="flex-1 overflow-auto">
-          <ScrollArea className="h-full">
+          <ScrollArea className="h-full no-scrollbar">
             <Table>
               <TableHeader>
                 <TableRow>
