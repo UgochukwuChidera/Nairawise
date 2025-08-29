@@ -129,7 +129,7 @@ export default function BillsPage() {
       />
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <CardTitle>Bill History</CardTitle>
                 <CardDescription>
