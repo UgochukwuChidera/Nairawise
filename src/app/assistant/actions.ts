@@ -1,3 +1,4 @@
+
 'use server'
 
 import { z } from 'zod'
@@ -5,8 +6,14 @@ import { analyzeSpendingHabits } from '@/ai/flows/analyze-spending-habits'
 import type { AnalyzeSpendingHabitsOutput } from '@/ai/flows/analyze-spending-habits'
 
 const schema = z.object({
-  transactions: z.string().min(50, 'Please provide more transaction details for a better analysis.'),
-})
+  transactions: z.string(),
+  // In the future, you can add a file field here:
+  // file: z.any().optional(), 
+}).refine(data => data.transactions.length > 0 /* || data.file */, {
+    message: "Please provide transaction details or upload a file.",
+    path: ["transactions"], // You can decide where to show the error
+});
+
 
 export type FormState = {
   success: boolean
@@ -29,8 +36,15 @@ export async function getFinancialAnalysis(
     }
   }
 
+  // If there are no transactions, we can assume a file was intended for upload.
+  // We can return a pending or success state without calling the AI.
+  if (!validatedFields.data.transactions) {
+      // TODO: Handle file processing logic here in the future
+      return { success: true, message: 'File is being processed.' };
+  }
+
   try {
-    const result = await analyzeSpendingHabits(validatedFields.data)
+    const result = await analyzeSpendingHabits({ transactions: validatedFields.data.transactions })
     if (result.summary && result.recommendations) {
         return { success: true, message: 'Analysis successful.', data: result }
     } else {

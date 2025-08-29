@@ -108,7 +108,6 @@ export function AssistantClient() {
                 name="transactions"
                 rows={1}
                 onInput={handleTextareaInput}
-                required
                 className="flex-1 resize-none max-h-48 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 border-0 shadow-none p-0"
               />
               <SubmitButton />
