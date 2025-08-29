@@ -136,7 +136,7 @@ export default function BillsPage() {
                     Manage your upcoming and past due bills.
                 </CardDescription>
             </div>
-            <div className="flex gap-2">
+            <div className="flex justify-center sm:justify-end gap-2">
                 <Button variant={sortOrder === 'newest' ? 'secondary' : 'outline'} size="sm" onClick={() => setSortOrder('newest')}>
                     <ArrowDown className="mr-2 h-4 w-4" /> Newest First
                 </Button>
