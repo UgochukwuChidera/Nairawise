@@ -123,7 +123,7 @@ export function OverviewChart() {
       <CardContent>
         <ChartContainer config={{}} className="w-full" style={{ aspectRatio: '16 / 9' }}>
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={view === 'income-expense' ? data : savingsData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+            <ComposedChart data={view === 'income-expense' ? data : savingsData} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
                 dataKey="month"
