@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useActionState, useRef } from 'react'
@@ -104,7 +105,7 @@ export function AssistantClient() {
         )}
         <div className="relative">
           <Card className="shadow-2xl rounded-full p-2">
-            <form ref={formRef} onSubmit={handleFormSubmit} className="flex items-end gap-2">
+            <form ref={formRef} onSubmit={handleFormSubmit} className="flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="shrink-0 rounded-full">
