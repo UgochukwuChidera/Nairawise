@@ -7,12 +7,6 @@ import { getFinancialAnalysis, type FormState } from '@/app/assistant/actions'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Terminal, Bot, Send, Loader2, Plus } from 'lucide-react'
 import { ScrollArea } from '../ui/scroll-area'
 import { Card, CardContent } from '../ui/card'
@@ -103,19 +97,10 @@ export function AssistantClient() {
         <div className="relative">
           <Card className="shadow-2xl rounded-full p-2">
             <form ref={formRef} onSubmit={handleFormSubmit} className="flex items-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="shrink-0 rounded-full">
-                    <Plus />
-                    <span className="sr-only">Attach file</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="mb-2">
-                  <DropdownMenuItem>CSV Input</DropdownMenuItem>
-                  <DropdownMenuItem>Text Input</DropdownMenuItem>
-                  <DropdownMenuItem>JSON Input</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button variant="ghost" size="icon" className="shrink-0 rounded-full">
+                <Plus />
+                <span className="sr-only">Attach file</span>
+              </Button>
               <Textarea
                 ref={textareaRef}
                 placeholder="Ask anything"
