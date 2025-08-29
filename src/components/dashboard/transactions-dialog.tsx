@@ -138,40 +138,46 @@ export function TransactionsDialog({ children }: { children: React.ReactNode }) 
           />
         </div>
 
-        <div className="flex-1 relative">
-            <ScrollArea className="h-full absolute inset-0">
-                <Table>
-                <TableHeader>
-                    <TableRow>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {filteredTransactions.map((transaction) => (
-                    <TableRow key={transaction.id}>
-                        <TableCell className="font-medium">{transaction.description}</TableCell>
-                        <TableCell>{format(new Date(transaction.date), "PPP")}</TableCell>
-                        <TableCell
-                        className={cn(
-                            "text-right font-bold",
-                            transaction.type === "income" ? "text-green-500" : "text-red-500"
-                        )}
-                        >
-                        {transaction.type === "income" ? "+" : "-"}₦
-                        {transaction.amount.toLocaleString()}
-                        </TableCell>
-                    </TableRow>
-                    ))}
-                </TableBody>
-                </Table>
-                {filteredTransactions.length === 0 && (
-                <div className="text-center p-8 text-muted-foreground">
-                    No transactions match your filters.
-                </div>
-                )}
-            </ScrollArea>
+        <div className="flex-1 overflow-auto">
+          <ScrollArea className="h-full">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredTransactions.map((transaction) => (
+                  <TableRow key={transaction.id}>
+                    <TableCell className="font-medium">
+                      {transaction.description}
+                    </TableCell>
+                    <TableCell>
+                      {format(new Date(transaction.date), "PPP")}
+                    </TableCell>
+                    <TableCell
+                      className={cn(
+                        "text-right font-bold",
+                        transaction.type === "income"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      )}
+                    >
+                      {transaction.type === "income" ? "+" : "-"}₦
+                      {transaction.amount.toLocaleString()}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            {filteredTransactions.length === 0 && (
+              <div className="text-center p-8 text-muted-foreground">
+                No transactions match your filters.
+              </div>
+            )}
+          </ScrollArea>
         </div>
       </DialogContent>
     </Dialog>
