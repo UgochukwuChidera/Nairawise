@@ -85,10 +85,7 @@ export function AssistantClient() {
               </Card>
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <Bot className="h-16 w-16 text-muted-foreground/30" />
-                <p className="text-lg text-muted-foreground mt-4">
-                  Your financial advice will appear here.
-                </p>
+                
               </div>
             )}
           </div>
