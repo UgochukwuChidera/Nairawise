@@ -17,7 +17,7 @@ export default function RootLayout({
         <title>NairaWise</title>
         <meta
           name="description"
-          content="A smart finance manager for students in Nigeria."
+          content="The smart finance manager for students in Nigeria."
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
