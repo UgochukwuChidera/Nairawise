@@ -146,7 +146,40 @@ export default function BillsPage() {
             </div>
         </CardHeader>
         <CardContent>
-          <Table>
+          {/* Mobile View - Cards */}
+          <div className="space-y-4 md:hidden">
+            {filteredBills.length > 0 ? (
+              filteredBills.map((bill: Bill) => (
+                <Card key={bill.id} className="p-4">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="font-semibold">{bill.name}</p>
+                      <p className="text-lg font-bold">{renderAmount(bill.amount)}</p>
+                    </div>
+                    <BillActions bill={bill} />
+                  </div>
+                  <div className="mt-4 flex items-center justify-between text-sm">
+                    <p className="text-muted-foreground">{bill.dueDate}</p>
+                    <Badge
+                      className={cn(
+                        'justify-center rounded-md px-2 py-1 text-xs',
+                        getStatusClass(bill.status)
+                      )}
+                    >
+                      {bill.status}
+                    </Badge>
+                  </div>
+                </Card>
+              ))
+            ) : (
+              <div className="h-24 text-center flex items-center justify-center">
+                <p>No bills found.</p>
+              </div>
+            )}
+          </div>
+          
+          {/* Desktop View - Table */}
+          <Table className="hidden md:table">
             <TableHeader>
               <TableRow>
                 <TableHead>Bill</TableHead>
