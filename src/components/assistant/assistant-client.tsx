@@ -46,11 +46,12 @@ export function AssistantClient() {
     const formData = new FormData(event.currentTarget)
     formAction(formData)
 
-    if (state.success && formRef.current) {
-      formRef.current.reset()
-      if (textareaRef.current) {
-        textareaRef.current.style.height = 'auto'
-      }
+    // Reset form on successful submission with data
+    if (state.success && state.data && formRef.current) {
+        formRef.current.reset()
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto' // Reset textarea height
+        }
     }
   }
 
