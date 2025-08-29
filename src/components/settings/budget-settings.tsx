@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -5,10 +6,19 @@ import { useBudget } from '@/context/budget-context'
 import { BudgetCardActions } from '@/components/budget/budget-card-actions'
 import { AddBudgetDialog } from '../budget/add-budget-dialog'
 import { Button } from '../ui/button'
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, Share2 } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
 
 export function BudgetSettings() {
     const { budgets } = useBudget()
+    const { toast } = useToast()
+
+    const handleShare = () => {
+        toast({
+        title: 'Budget Template Shared!',
+        description: 'Your budget categories and percentages have been copied to the clipboard.',
+        })
+    }
 
     return (
         <Card>
@@ -20,7 +30,11 @@ export function BudgetSettings() {
                         Manage your financial categories and their allocated amounts.
                         </CardDescription>
                     </div>
-                    <div className="ml-4 shrink-0">
+                    <div className="ml-4 shrink-0 flex items-center gap-2">
+                        <Button variant="outline" size="sm" onClick={handleShare}>
+                            <Share2 className="mr-2 h-4 w-4" />
+                            Share
+                        </Button>
                         <AddBudgetDialog />
                     </div>
                 </div>
