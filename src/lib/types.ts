@@ -1,5 +1,3 @@
-
-
 export type Transaction = {
   id: string;
   description: string;
@@ -13,6 +11,7 @@ export type Budget = {
   category: string;
   allocated: number;
   spent: number;
+  allocationPercentage?: number;
 };
 
 export type Bill = {
