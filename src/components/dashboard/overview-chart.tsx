@@ -120,7 +120,7 @@ export function OverviewChart() {
             </div>
         </div>
       </CardHeader>
-      <CardContent className="pl-2">
+      <CardContent>
         <ChartContainer config={{}} className="w-full" style={{ aspectRatio: '16 / 9' }}>
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={view === 'income-expense' ? data : savingsData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>

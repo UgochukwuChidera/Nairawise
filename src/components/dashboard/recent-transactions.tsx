@@ -1,3 +1,4 @@
+
 'use client'
 
 import { ArrowUpRight } from 'lucide-react'
@@ -47,32 +48,34 @@ export function RecentTransactions() {
         </TransactionsDialog>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Description</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {transactions.slice(0, 5).map((transaction) => (
-              <TableRow key={transaction.id}>
-                <TableCell>
-                  <div className="font-medium">{transaction.description}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {transaction.date}
-                  </div>
-                </TableCell>
-                <TableCell className={cn(
-                  "text-right font-bold",
-                  showMonetaryValues && (transaction.type === 'income' ? 'text-green-500' : 'text-red-500')
-                )}>
-                  {renderAmount(transaction.amount, transaction.type)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <div className="-mx-6">
+            <Table>
+            <TableHeader>
+                <TableRow>
+                <TableHead className="px-6">Description</TableHead>
+                <TableHead className="text-right px-6">Amount</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {transactions.slice(0, 5).map((transaction) => (
+                <TableRow key={transaction.id}>
+                    <TableCell className="px-6">
+                    <div className="font-medium">{transaction.description}</div>
+                    <div className="text-sm text-muted-foreground">
+                        {transaction.date}
+                    </div>
+                    </TableCell>
+                    <TableCell className={cn(
+                    "text-right font-bold px-6",
+                    showMonetaryValues && (transaction.type === 'income' ? 'text-green-500' : 'text-red-500')
+                    )}>
+                    {renderAmount(transaction.amount, transaction.type)}
+                    </TableCell>
+                </TableRow>
+                ))}
+            </TableBody>
+            </Table>
+        </div>
       </CardContent>
     </Card>
   )
